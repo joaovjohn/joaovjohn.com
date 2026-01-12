@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+:root {
+  /* Sistema de cores global */
+  --cor-1: #000000;           /* Preto - cor principal */
+  --cor-1-light: #333333;     /* Preto claro */
+  --cor-1-lighter: #666666;   /* Cinza escuro */
+  --cor-bg: #ffffff;          /* Fundo branco */
+  --cor-bg-secondary: #f5f5f5; /* Fundo secundário */
+  --cor-border: #e0e0e0;      /* Bordas */
+  --cor-text: #000000;        /* Texto principal */
+  --cor-text-muted: #666666;  /* Texto secundário */
+  
+  /* Variáveis legadas (manter compatibilidade) */
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-cor-1: var(--cor-1);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--cor-bg);
+  color: var(--cor-text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Classes utilitárias globais */
+.cor-1 {
+  color: var(--cor-1);
+}
+
+.bg-cor-1 {
+  background-color: var(--cor-1);
+}
+
+.border-cor-1 {
+  border-color: var(--cor-1);
+}
+
+.text-cor-1 {
+  color: var(--cor-1);
+}
+
+.text-cor-1-light {
+  color: var(--cor-1-light);
+}
+
+.text-cor-1-lighter {
+  color: var(--cor-1-lighter);
+}
+
+.bg-page {
+  background-color: var(--cor-bg);
+}
+
+.bg-page-secondary {
+  background-color: var(--cor-bg-secondary);
+}
+
+.text-muted {
+  color: var(--cor-text-muted);
+}
+
+/* Animação de pulsação customizada para o botão hover */
+@keyframes pulse-scale {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.03);
+  }
+}
+
+.animate-pulse-scale {
+  animation: pulse-scale 1.5s ease-in-out infinite;
+}
