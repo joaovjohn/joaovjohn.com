@@ -17,7 +17,7 @@ export default function LanguageSwitcher() {
             <div className="flex gap-2 bg-white border border-cor-border rounded-full p-1 shadow-md">
                 <button
                     onClick={() => handleLanguageChange('pt-br')}
-                    className={`px-4 py-2 rounded-full transition-all duration-300 ${
+                    className={`px-4 py-2 cursor-pointer rounded-full transition-all duration-300 ${
                         locale === 'pt-br'
                             ? 'bg-cor-1 text-white font-semibold'
                             : 'text-cor-1-lighter hover:text-cor-1'
@@ -28,7 +28,7 @@ export default function LanguageSwitcher() {
                 </button>
                 <button
                     onClick={() => handleLanguageChange('en')}
-                    className={`px-4 py-2 rounded-full transition-all duration-300 ${
+                    className={`px-4 py-2 cursor-pointer rounded-full transition-all duration-300 ${
                         locale === 'en'
                             ? 'bg-cor-1 text-white font-semibold'
                             : 'text-cor-1-lighter hover:text-cor-1'

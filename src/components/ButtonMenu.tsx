@@ -134,13 +134,13 @@ export function ButtonMenu({ label = "MENU", isActive = true, className, ...prop
         className="absolute inset-0 flex items-center overflow-visible"
         style={{
           paddingLeft: `${leftStartX + padding + shadowPadding / 2}px`,
-          paddingTop: `${shadowPadding / 2}px`,
+        //   paddingTop: `${shadowPadding / 2}px`,
         }}
       >
         <span
           className={cn(
             "font-bold uppercase whitespace-nowrap relative z-10 transition-colors duration-200",
-            !isActive && "text-zinc-500",
+            !isActive && "text-white",
           )}
           style={{
             fontFamily: "var(--font-archivo-black), sans-serif",
