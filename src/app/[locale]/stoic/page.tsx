@@ -22,13 +22,31 @@ export default function StoicPage() {
     useEffect(() => {
         const loadQuotes = async () => {
             setIsLoadingQuotes(true);
-            const allQuotes = await stoicService.getQuotes(locale === 'pt-br' ? 'en' : 'en');
+            const validLocale = (locale === 'pt-br' || locale === 'en') ? locale : 'en';
+            const allQuotes = await stoicService.getQuotes(validLocale);
             const dailyQuotes = stoicService.getDailyQuotes(allQuotes);
             setQuotes(dailyQuotes);
+            
+            const savedIndex = sessionStorage.getItem('stoicIndex');
+            if (savedIndex) {
+                const index = parseInt(savedIndex);
+                if (!isNaN(index) && index >= 0 && index < dailyQuotes.length) {
+                    setCurrent(index);
+                }
+            } else {
+                setCurrent(0);
+            }
+            
             setIsLoadingQuotes(false);
         };
         loadQuotes();
     }, [locale]);
+
+    useEffect(() => {
+        if (!isLoadingQuotes) {
+            sessionStorage.setItem('stoicIndex', current.toString());
+        }
+    }, [current, isLoadingQuotes]);
 
     const handleTouchStart = (e: React.TouchEvent) => {
         setTouchStart(e.targetTouches[0].clientX);
