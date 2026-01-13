@@ -3,5 +3,14 @@
     "about": "About",
     "stoic": "Stoic",
     "back": "Back",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "menu": {
+        "about": "About",
+        "books": "Books",
+        "resume": "Resume",
+        "stoic": "Stoic",
+        "coolPages": "Cool Pages",
+        "uses": "Uses",
+        "projects": "Projects"
+    }
 }

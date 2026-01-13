@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
     title: "João Vitor John",
-    description: "Portfolio e espaço digital de João Vitor John",
+    description: "Portfolio",
 };
 
 export default function RootLayout({

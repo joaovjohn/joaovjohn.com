@@ -3,5 +3,14 @@
     "about": "Sobre",
     "stoic": "Estoico",
     "back": "Voltar",
-    "loading": "Carregando..."
+    "loading": "Carregando...",
+    "menu": {
+        "about": "Sobre",
+        "books": "Livros",
+        "resume": "Currículo",
+        "stoic": "Estoicismo",
+        "coolPages": "Páginas Fodas",
+        "uses": "Setup",
+        "projects": "Projetos"
+    }
 }
