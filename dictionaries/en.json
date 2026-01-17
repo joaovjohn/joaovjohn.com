@@ -12,5 +12,10 @@
         "coolPages": "Cool Pages",
         "uses": "Uses",
         "projects": "Projects"
+    },
+    "player": {
+        "nowPlaying": "Now Playing",
+        "music": "Music",
+        "effects": "Effects"
     }
 }

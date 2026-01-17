@@ -12,5 +12,10 @@
         "coolPages": "Páginas Fodas",
         "uses": "Setup",
         "projects": "Projetos"
+    },
+    "player": {
+        "nowPlaying": "Tocando Agora",
+        "music": "Música",
+        "effects": "Efeitos"
     }
 }

@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 import { Geist, Geist_Mono, Press_Start_2P, Archivo_Black } from "next/font/google";
 import { routing } from '@/i18n/routing';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { AudioProvider } from '@/contexts/AudioContext';
+import { AudioPlayer } from '@/components/AudioPlayer';
 import '../globals.css';
 
 const geistSans = Geist({
@@ -50,8 +52,11 @@ export default async function LocaleLayout({
         <html lang={locale}>
             <body className={`${geistSans.variable} ${geistMono.variable} ${pressStart2P.variable} ${archivoBlack.variable} antialiased`}>
                 <NextIntlClientProvider messages={messages}>
-                    <LanguageSwitcher />
-                    {children}
+                    <AudioProvider>
+                        <LanguageSwitcher />
+                        <AudioPlayer />
+                        {children}
+                    </AudioProvider>
                 </NextIntlClientProvider>
             </body>
         </html>
