@@ -2,6 +2,7 @@
 
 import { type IButtonProps } from '@/contracts/interfaces/IButton';
 import { Link } from '@/i18n/routing';
+import Image from 'next/image';
 
 export default function ButtonDefault({ 
     children, 
@@ -96,25 +97,31 @@ export default function ButtonDefault({
             <div className="absolute -inset-1 bg-linear-to-r from-yellow-400 via-yellow-300 to-yellow-400 rounded-lg opacity-0 group-hover:opacity-75 blur-sm transition-all duration-300" />
             
             {/* Botão default */}
-            <img
+            <Image
                 src="/svg/button_default_complete.svg"
                 alt=""
+                width={300}
+                height={48}
                 className="relative w-full min-w-[200px] sm:min-w-[250px] md:min-w-[300px] h-12 group-hover:opacity-0 transition-all duration-300"
                 style={{ imageRendering: 'pixelated' }}
             />
 
             {/* Botão hover com animação de pulsação */}
-            <img
+            <Image
                 src="/svg/button_hover.svg"
                 alt=""
+                width={288}
+                height={40}
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[96%] h-10 opacity-0 group-hover:opacity-100 group-hover:animate-pulse-scale transition-all duration-300 drop-shadow-lg"
                 style={{ imageRendering: 'pixelated' }}
             />
 
             {/* Container de fundo (hover) - mais alto */}
-            <img
+            <Image
                 src="/svg/button_hover_container.svg"
                 alt=""
+                width={300}
+                height={56}
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-14 opacity-0 group-hover:opacity-70 transition-all duration-300 pointer-events-none"
                 style={{ imageRendering: 'pixelated' }}
             />

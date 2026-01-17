@@ -19,7 +19,7 @@ export default async function HomePage() {
         <div className="relative min-h-screen w-full overflow-hidden">
             {/* Background wallpaper with next/image for performance */}
             <Image
-                src="/wallpaper_menu.jpg"
+                src="/img/wallpaper_menu.jpg"
                 alt=""
                 fill
                 priority

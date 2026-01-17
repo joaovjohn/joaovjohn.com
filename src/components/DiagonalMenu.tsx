@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ButtonMenu } from "./ButtonMenu";
+import useSound from "use-sound";
 
 export interface DiagonalMenuItem {
     href: string;
@@ -15,6 +16,7 @@ interface DiagonalMenuProps {
 
 export function DiagonalMenu({ items }: DiagonalMenuProps) {
     const [activeIndex, setActiveIndex] = useState(0);
+    const [playClick] = useSound("/audio/click.mp3", { volume: 1.25 });
 
     // Offset diagonal: mais agressivo horizontalmente, compacto verticalmente
     const baseOffsetX = 4; // vw por item (aumentado para mais diagonal)
@@ -39,9 +41,13 @@ export function DiagonalMenu({ items }: DiagonalMenuProps) {
                             transform: "scale(0.9)",
                             transformOrigin: "center",
                         }}
-                        onMouseEnter={() => setActiveIndex(index)}
+                        onClick={() => { playClick() }}
                     >
-                        <ButtonMenu label={item.label} isActive={isActive} />
+                        <ButtonMenu 
+                            label={item.label} 
+                            isActive={isActive} 
+                            onMouseEnter={() => setActiveIndex(index)} 
+                        />
                     </Link>
                 );
             })}
