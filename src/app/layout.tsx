@@ -1,9 +1,20 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Analytics } from '@vercel/analytics/next';
+import { GoogleAnalytics } from '@/components/monitoring/GoogleAnalytics';
+import { MicrosoftClarity } from '@/components/monitoring/MicrosoftClarity';
 
 export const metadata: Metadata = {
     title: "João Vitor John",
-    description: "Portfolio",
+    keywords: [
+        "Bomba Patch",
+        "Portifólio Bomba Patch",
+        "Página Bomba Patch",
+        "João Vitor John",
+        "Portfolio",
+        "Desenvolvedor Full-Stack"
+    ],
+    metadataBase: new URL("https://joaovjohn.com")
 };
 
 export default function RootLayout({
@@ -11,5 +22,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-    return children;
+    return (
+        <>
+            <GoogleAnalytics />
+            <MicrosoftClarity />
+            {children}
+            <Analytics />
+        </>
+    );
 }
