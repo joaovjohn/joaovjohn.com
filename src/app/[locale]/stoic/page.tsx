@@ -5,9 +5,11 @@ import { useTranslations, useLocale } from 'next-intl';
 import Image from 'next/image';
 import { stoicService } from '@/services/stoic.service';
 import ButtonDefault from '@/components/ButtonDefault';
+import ButtonSwitch from '@/components/ButtonSwitch';
 import { useAudio } from '@/contexts/AudioContext';
 import { useRouter } from '@/i18n/routing';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { BiSolidRightArrow, BiSolidLeftArrow } from "react-icons/bi";
+
 
 interface Quote {
     text: string;
@@ -25,22 +27,6 @@ export default function StoicPage() {
     const [touchStart, setTouchStart] = useState(0);
     const [touchEnd, setTouchEnd] = useState(0);
 
-    // Helper para tocar efeitos sonoros
-    const playSfx = (file: string) => {
-        try {
-            const audio = new Audio(`/audio/${file}`);
-            audio.volume = sfxVolume;
-            audio.play().catch((e) => console.warn('SFX play failed', e));
-        } catch (e) {
-            console.error('Audio setup failed', e);
-        }
-    };
-
-    // Handler para o botão voltar
-    const handleBack = () => {
-        playSfx('back.mp3');
-        router.push('/');
-    };
 
     useEffect(() => {
         const loadQuotes = async () => {
@@ -86,22 +72,18 @@ export default function StoicPage() {
         const isRightSwipe = distance < -50;
     
         if (isLeftSwipe && current < quotes.length - 1) {
-            playSfx('switch.mp3');
             setCurrent(current + 1);
         }
         if (isRightSwipe && current > 0) {
-            playSfx('switch.mp3');
             setCurrent(current - 1);
         }
     };
 
     const handlePrev = () => {
-        playSfx('switch.mp3');
         if (current > 0) setCurrent(current - 1);
     };
 
     const handleNext = () => {
-        playSfx('switch.mp3');
         if (current < quotes.length - 1) setCurrent(current + 1);
     };
 
@@ -144,55 +126,60 @@ export default function StoicPage() {
             <div className="absolute inset-0 bg-black/40 z-1" />
 
             {/* Botão Voltar - Estilo ButtonDefault com sons */}
-            <div className="absolute top-6 left-6 z-20">
+            <div className="absolute top-10 left-10 z-20">
                 <ButtonDefault
-                    variant="default"
+                    variant="back"
                     size="sm"
-                    onClick={handleBack}
-                    onMouseEnter={() => playSfx('hover.mp3')}
+                    onClick={() => router.push('/')}
                 >
-                    ← {t('back')}
+                    {t('back')}
                 </ButtonDefault>
             </div>
 
             {/* Container principal com navegação */}
             <div className="relative z-10 w-full max-w-4xl flex items-center justify-between gap-4">
                 
-                {/* Botão Anterior - Amarelo piscando */}
+                {/* Botão Anterior - Ícone pulsando */}
                 <div className="hidden md:flex items-center justify-center w-14 h-14">
                     {current > 0 && (
-                        <button
+                        <ButtonSwitch
                             onClick={handlePrev}
-                            className="w-12 h-12 rounded-full bg-yellow-400 hover:bg-yellow-300 text-black flex items-center justify-center animate-pulse shadow-[0_0_20px_rgba(250,204,21,0.6)] hover:shadow-[0_0_30px_rgba(250,204,21,0.8)] transition-all duration-300 cursor-pointer"
+                            size="lg"
                             aria-label="Previous quote"
                         >
-                            <FaChevronLeft className="text-xl" />
-                        </button>
+                            <BiSolidLeftArrow />
+                        </ButtonSwitch>
                     )}
                 </div>
 
                 {/* Card da Citação */}
                 <div className="flex-1 backdrop-blur-md bg-black/50 p-8 md:p-12 rounded-2xl border border-white/10 shadow-2xl">
                     <blockquote className="text-center">
-                        <p className="text-2xl md:text-4xl text-white font-light mb-8 leading-relaxed tracking-wide drop-shadow-md">
+                        <p 
+                            className="text-2xl md:text-4xl text-white font-light mb-8 leading-relaxed tracking-wide drop-shadow-md"
+                            style={{ fontFamily: 'ManifontGroteskBookItalic, sans-serif' }}
+                        >
                             &ldquo;{quote.text}&rdquo;
                         </p>
-                        <footer className="text-lg md:text-xl text-yellow-400 font-medium tracking-widest uppercase opacity-90">
+                        <footer 
+                            className="text-lg md:text-xl text-yellow-400 font-medium tracking-widest uppercase opacity-90"
+                            style={{ fontFamily: 'ManifontGroteskBookItalic, sans-serif' }}
+                        >
                             — {quote.author}
                         </footer>
                     </blockquote>
                 </div>
 
-                {/* Botão Próximo - Amarelo piscando */}
+                {/* Botão Próximo - Ícone pulsando */}
                 <div className="hidden md:flex items-center justify-center w-14 h-14">
                     {current < quotes.length - 1 && (
-                        <button
+                        <ButtonSwitch
                             onClick={handleNext}
-                            className="w-12 h-12 rounded-full bg-yellow-400 hover:bg-yellow-300 text-black flex items-center justify-center animate-pulse shadow-[0_0_20px_rgba(250,204,21,0.6)] hover:shadow-[0_0_30px_rgba(250,204,21,0.8)] transition-all duration-300 cursor-pointer"
+                            size="lg"
                             aria-label="Next quote"
                         >
-                            <FaChevronRight className="text-xl" />
-                        </button>
+                            <BiSolidRightArrow />
+                        </ButtonSwitch>
                     )}
                 </div>
             </div>
@@ -200,13 +187,9 @@ export default function StoicPage() {
             {/* Indicadores de paginação */}
             <div className="relative z-10 flex justify-center gap-3 mt-12">
                 {quotes.map((_, i: number) => (
-                    <button
+                    <div
                         key={i}
-                        onClick={() => {
-                            playSfx('switch.mp3');
-                            setCurrent(i);
-                        }}
-                        className={`h-2 rounded-full transition-all duration-500 cursor-pointer ${
+                        className={`h-2 rounded-full transition-all duration-500 ${
                             i === current 
                                 ? 'bg-yellow-400 w-10 shadow-[0_0_12px_rgba(250,204,21,0.8)]' 
                                 : 'bg-white/30 w-2 hover:bg-white/60'
@@ -217,25 +200,27 @@ export default function StoicPage() {
             </div>
             
             {/* Navegação Mobile - Botões nas laterais (visíveis apenas em telas pequenas) */}
-            <div className="md:hidden flex justify-between w-full absolute top-1/2 -translate-y-1/2 px-2 z-10 pointer-events-none">
+            <div className="md:hidden flex justify-between w-full absolute top-1/2 -translate-y-1/2 px-4 z-10 pointer-events-none">
                 {current > 0 && (
-                    <button 
-                        className="w-10 h-10 bg-yellow-400/80 rounded-full flex items-center justify-center animate-pulse pointer-events-auto cursor-pointer shadow-lg"
+                    <ButtonSwitch 
+                        className="pointer-events-auto"
                         onClick={handlePrev}
+                        size="md"
                         aria-label="Previous quote"
                     >
-                        <FaChevronLeft className="text-black text-lg" />
-                    </button>
+                        <BiSolidLeftArrow />
+                    </ButtonSwitch>
                 )}
                 <div className="flex-1" />
                 {current < quotes.length - 1 && (
-                    <button 
-                        className="w-10 h-10 bg-yellow-400/80 rounded-full flex items-center justify-center animate-pulse pointer-events-auto cursor-pointer shadow-lg"
+                    <ButtonSwitch 
+                        className="pointer-events-auto"
                         onClick={handleNext}
+                        size="md"
                         aria-label="Next quote"
                     >
-                        <FaChevronRight className="text-black text-lg" />
-                    </button>
+                        <BiSolidRightArrow />
+                    </ButtonSwitch>
                 )}
             </div>
         </div>

@@ -80,3 +80,21 @@ body {
 .animate-pulse-scale {
   animation: pulse-scale 1.5s ease-in-out infinite;
 }
+
+/* Animação de pulsar e piscar para ButtonSwitch */
+@keyframes pulse-blink {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.8));
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 16px rgba(250, 204, 21, 1));
+  }
+}
+
+.animate-pulse-blink {
+  animation: pulse-blink 1.5s ease-in-out infinite;
+}

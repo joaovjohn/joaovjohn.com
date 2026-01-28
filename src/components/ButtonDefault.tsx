@@ -1,8 +1,10 @@
 'use client';
 
+import { useAudio } from '@/contexts/AudioContext';
 import { type IButtonProps } from '@/contracts/interfaces/IButton';
 import { Link } from '@/i18n/routing';
 import Image from 'next/image';
+import useSound from 'use-sound';
 
 export default function ButtonDefault({ 
     children, 
@@ -10,6 +12,8 @@ export default function ButtonDefault({
     disabled = false,
     href,
     variant = 'default',
+    onClick,
+    onMouseEnter,
     size = 'md',
     ...props 
 }: IButtonProps) {
@@ -19,6 +23,12 @@ export default function ButtonDefault({
             : size === 'lg'
                 ? 'text-lg px-5 py-3'
                 : 'text-base px-4 py-2';
+
+    const { sfxVolume } = useAudio()
+    const [playClick] = variant == 'back' ?
+        useSound("/audio/back.mp3", { volume: sfxVolume }) :
+        useSound("/audio/click.mp3", { volume: sfxVolume })
+    const [playHover] = useSound("/audio/hover.mp3", { volume: sfxVolume })
 
     if (variant === 'icon') {
         const iconClasses = `inline-flex items-center justify-center select-none transition-all duration-300 ease-out rounded-full
@@ -91,6 +101,14 @@ export default function ButtonDefault({
                 ${disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:scale-110'} 
                 ${className}`}
             disabled={disabled}
+            onClick={(event) => {
+                playClick();
+                onClick?.(event);
+            }}
+            onMouseEnter={(event) => {
+                playHover();
+                onMouseEnter?.(event);
+            }}
             {...props}
         >
             {/* Efeito de brilho */}
@@ -129,7 +147,7 @@ export default function ButtonDefault({
             {/* Texto do botão */}
             <span 
                 className="absolute inset-0 flex items-center pl-6 text-lg tracking-[0.15em] text-gray-800 group-hover:text-black transition-all duration-300 pointer-events-none z-10"
-                style={{ fontFamily: 'Impact, sans-serif' }}
+                style={{ fontFamily: 'ManifontGroteskBookItalic, sans-serif' }}
             >
                 {children}
             </span>

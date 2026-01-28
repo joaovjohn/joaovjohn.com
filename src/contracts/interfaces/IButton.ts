@@ -8,7 +8,7 @@ export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
      * - ghost: botão textual/leve
      * - icon: botão compacto para ícones/controles (setas, dots)
      */
-    variant?: 'default' | 'custom' | 'ghost' | 'icon';
+    variant?: 'default' | 'custom' | 'ghost' | 'icon' | 'back';
     /**
      * Tamanhos sugeridos para variantes leves (ghost/icon).
      * Para o botão SVG (default/custom), o tamanho é controlado via CSS.
