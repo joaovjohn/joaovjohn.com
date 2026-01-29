@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Analytics } from '@vercel/analytics/next';
-import { GoogleAnalytics } from '@/components/monitoring/GoogleAnalytics';
-import { MicrosoftClarity } from '@/components/monitoring/MicrosoftClarity';
+import { GoogleAnalytics, MicrosoftClarity, PageViewTracker } from '@/components/monitoring';
 
 export const metadata: Metadata = {
     title: "João Vitor John",
@@ -25,8 +24,9 @@ export default function RootLayout({
     return (
         <>
             <GoogleAnalytics />
-            <MicrosoftClarity />
             {children}
+            <MicrosoftClarity />
+            <PageViewTracker />
             <Analytics />
         </>
     );

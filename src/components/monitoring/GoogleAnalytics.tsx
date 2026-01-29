@@ -1,5 +1,11 @@
-import Script from 'next/script';
+import { GoogleAnalytics as NextGoogleAnalytics } from '@next/third-parties/google';
 
+/**
+ * Google Analytics component using the official Next.js third-parties package.
+ * This provides optimal loading performance and automatic pageview tracking.
+ * 
+ * @requires NEXT_PUBLIC_GA_ID environment variable
+ */
 export function GoogleAnalytics() {
     const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
@@ -7,24 +13,5 @@ export function GoogleAnalytics() {
         return null;
     }
 
-    return (
-        <>
-            <Script
-                strategy="afterInteractive"
-                src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-            />
-            <Script
-                id="google-analytics"
-                strategy="afterInteractive"
-                dangerouslySetInnerHTML={{
-                    __html: `
-                        window.dataLayer = window.dataLayer || [];
-                        function gtag(){dataLayer.push(arguments);}
-                        gtag('js', new Date());
-                        gtag('config', '${gaId}');
-                    `,
-                }}
-            />
-        </>
-    );
+    return <NextGoogleAnalytics gaId={gaId} />;
 }
