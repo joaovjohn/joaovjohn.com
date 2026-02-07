@@ -1,5 +1,22 @@
+
 {
     "books": [
+        {
+            "title": "21 lições para o século 21",
+            "author": "Yuval Noah Harari",
+            "url": "https://a.co/d/0c1MAOky",
+            "image": "https://m.media-amazon.com/images/I/71klPwA3ZqL._SY522_.jpg",
+            "description": "Foi primeiro livro que li por completo e que fez eu gostar de leitura, o livro fala sobre questões importantes que a humanidade enfrenta no século 21, como inteligência artificial, mudanças climáticas, desigualdade social, entre outros. O autor apresenta uma análise profunda e provocativa sobre o futuro da humanidade e como podemos nos preparar para ele.",
+            "category": ["Categoria1"]
+        },
+        {
+            "title": "A Vida Intelectual",
+            "author": "Antonin-Dalmace Sertillanges",
+            "url": "https://a.co/d/0ebF4YPy",
+            "image": "https://m.media-amazon.com/images/I/61Qro2FtsqL._SY522_.jpg",
+            "description": "Leitura obrigatória, baita livro que fala sobre a importância da vida intelectual, do estudo e da busca pelo conhecimento, e como isso pode trazer sentido e propósito para a vida. É uma leitura um pouco pesada mas é atemporal",
+            "category": ["Categoria1"]
+        },
         {
             "title": "10% mais feliz",
             "author": "Dan Harris",
@@ -9,11 +26,19 @@
             "category": ["Categoria1"]
         },
         {
-            "title": "Sem esforço",
-            "author": "Greg McKeown",
-            "url": "https://a.co/d/9Y1t3z9",
-            "image": "https://m.media-amazon.com/images/I/71yqe0RX3VL._SY522_.jpg",
-            "description": "Excelente livro sobre produtividade e foco, que ensina a identificar o que é realmente importante e eliminar o que é desnecessário, para alcançar mais resultados com menos esforço.",
+            "title": "O andar do bêbado",
+            "author": "Leonard Mlodinow",
+            "url": "https://a.co/d/00LkH1S8",
+            "image": "https://m.media-amazon.com/images/I/81KdmY4M-7L._SY522_.jpg",
+            "description": "Livro fascinante sobre o papel do acaso e da aleatoriedade em nossas vidas, conta brevemente a história da estatística/probabilidade, e como muitas vezes subestimamos a influência do fator sorte em nossos sucessos e fracassos. Ajuda a ter uma perspectiva mais realista sobre o que podemos controlar e o que é imprevisível.",
+            "category": ["Categoria1"]
+        },
+        {
+            "title": "Rápido e devagar: Duas formas de pensar",
+            "author": "Daniel Kahneman",
+            "url": "https://a.co/d/04xsJCN2",
+            "image": "https://m.media-amazon.com/images/I/61pt9lG-PvL._SY522_.jpg",
+            "description": "Clássico da psicologia e economia comportamental, escrito por um ganhador do Nobel. O livro explora os dois sistemas de pensamento que governam nossas decisões: o sistema rápido, intuitivo e emocional, e o sistema lento, deliberativo e lógico. É uma leitura densa/pesada mas descreve muito bem como pensamos e tomamos decisões.",
             "category": ["Categoria1"]
         },
         {
@@ -33,13 +58,60 @@
             "category": ["Categoria1"]
         },
         {
-            "title": "O andar do bêbado",
-            "author": "Leonard Mlodinow",
-            "url": "https://a.co/d/00LkH1S8",
-            "image": "https://m.media-amazon.com/images/I/81KdmY4M-7L._SY522_.jpg",
-            "description": "Livro fascinante sobre o papel do acaso e da aleatoriedade em nossas vidas, conta brevemente a história da estatística/probabilidade, e como muitas vezes subestimamos a influência do fator sorte em nossos sucessos e fracassos. Ajuda a ter uma perspectiva mais realista sobre o que podemos controlar e o que é imprevisível.",
+            "title": "Meditações",
+            "author": "Marco Aurélio",
+            "url": "https://a.co/d/05VSmz5I",
+            "image": "https://m.media-amazon.com/images/I/612B0id4gNL._SY522_.jpg",
+            "description": "Clássico da filosofia estoica. O livro é um diário do Marco Aurélio, um dos maiores imperadores romanos. Obrigatório para quem gosta de estoicismo.",
+            "category": ["Categoria1"]
+        },
+        {
+            "title": "Manual de Epicteto",
+            "author": "Epicteto",
+            "url": "https://a.co/d/0b9J3aJg",
+            "image": "https://m.media-amazon.com/images/I/61zkj3SiV4L._SY522_.jpg",
+            "description": "Clássico da filosofia estoica, escrito por um escravo que se tornou um dos maiores filósofos de sua época. O livro é uma coleção de ensinamentos e reflexões sobre como viver uma vida virtuosa e feliz, mesmo diante das adversidades.",
+            "category": ["Categoria1"]
+        },
+        {
+            "title": "Sobre a brevidade da vida",
+            "author": "Sêneca",
+            "url": "https://a.co/d/0eVFxxNH",
+            "image": "https://m.media-amazon.com/images/I/71p7I8m6i8L._SY522_.jpg",
+            "description": "Clássico da filosofia estoica, escrito por um dos maiores filósofos romanos. O livro é uma reflexão sobre a natureza efêmera da vida e a importância de aproveitá-la ao máximo, vivendo de acordo com a virtude e a razão.",
+            "category": ["Categoria1"]
+        },
+        {
+            "title": "Sobre a brevidade da vida",
+            "author": "Sêneca",
+            "url": "https://a.co/d/0eVFxxNH",
+            "image": "https://m.media-amazon.com/images/I/71p7I8m6i8L._SY522_.jpg",
+            "description": "Clássico da filosofia estoica, escrito por um dos maiores filósofos romanos. O livro é uma reflexão sobre a natureza efêmera da vida e a importância de aproveitá-la ao máximo, vivendo de acordo com a virtude e a razão.",
+            "category": ["Categoria1"]
+        },
+        {
+            "title": "Diário estoico",
+            "author": "Ryan Holiday",
+            "url": "https://a.co/d/0g0Q7fht",
+            "image": "https://m.media-amazon.com/images/I/71DMS2JCTXL._SY522_.jpg",
+            "description": "Apresenta uma coleção de ensinamentos estoicos organizados em formato de diário, com reflexões diárias e citações de filósofos estoicos. É uma ótima introdução prática ao estoicismo, e pode ser lido em pequenos trechos diários para inspiração e reflexão.",
+            "category": ["Categoria1"]
+        },
+        {
+            "title": "Responsabilidade Extrema: Como os Navy Seals Lideram e Vencem",
+            "author": "Jocko Willink e Leif Babin",
+            "url": "https://a.co/d/0fUNfPkc",
+            "image": "https://m.media-amazon.com/images/I/51lkt3xn7SL._SY522_.jpg",
+            "description": "Escrito por dois ex-Navy Seals, que compartilham suas experiências e lições aprendidas sobre liderança, trabalho em equipe e disciplina. O livro da exemplos práticos aplicados no exercito e no mercado corporativo.",
+            "category": ["Categoria1"]
+        },
+        {
+            "title": "Vá e vença: Decifrando a tropa de elite",
+            "author": "Paulo Storani",
+            "url": "https://a.co/d/0bU80iEm",
+            "image": "https://m.media-amazon.com/images/I/816MTEBzu0L._SY522_.jpg",
+            "description": "Ensina a formar equipes de elite e alta performance, baseado na experiência do autor como ex-capitão do BOPE, faz mençoes ao filme de Tropa de Elite.",
             "category": ["Categoria1"]
         }
-
     ]
 }
