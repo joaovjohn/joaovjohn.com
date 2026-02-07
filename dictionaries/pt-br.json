@@ -18,5 +18,21 @@
         "nowPlaying": "Tocando Agora",
         "music": "Música",
         "effects": "Efeitos"
+    },
+    "books": {
+        "subtitle": "Uns livros legalzinhos pra se entreter",
+        "search": "Buscar",
+        "searchPlaceholder": "Buscar por título, autor ou categoria...",
+        "filterByCategory": "Filtrar por categoria",
+        "allCategories": "Todas",
+        "noResults": "Nenhum livro encontrado",
+        "tryDifferentSearch": "Tente buscar com termos diferentes",
+        "resultsCount": "{count, plural, =1 {# livro encontrado} other {# livros encontrados}}",
+        "keyboardHint": "Use as setas para navegar entre os livros",
+        "booksList": "Lista de livros",
+        "viewBook": "Ver livro",
+        "buy": "Comprar",
+        "errorLoading": "Erro ao carregar os livros",
+        "tryAgain": "Tentar novamente"
     }
 }

@@ -1,0 +1,46 @@
+
+{
+    "books": [
+        {
+            "title": "10% mais feliz",
+            "author": "Dan Harris",
+            "url": "https://a.co/d/dd9uSu4",
+            "image": "https://m.media-amazon.com/images/I/71USnLguEOL._SY522_.jpg",
+            "description": "Livro muito bom sobre meditação e mindfulness, escrito por um jornalista que passou por uma experiência de quase morte e descobriu a prática como uma forma de lidar com o estresse e a ansiedade do dia a dia.",
+            "category": ["Categoria1"]
+        },
+        {
+            "title": "Sem esforço",
+            "author": "Greg McKeown",
+            "url": "https://a.co/d/9Y1t3z9",
+            "image": "https://m.media-amazon.com/images/I/71yqe0RX3VL._SY522_.jpg",
+            "description": "Excelente livro sobre produtividade e foco, que ensina a identificar o que é realmente importante e eliminar o que é desnecessário, para alcançar mais resultados com menos esforço.",
+            "category": ["Categoria1"]
+        },
+        {
+            "title": "O mesmo de sempre",
+            "author": "Morgan Housel",
+            "url": "https://a.co/d/0adW9hub",
+            "image": "https://m.media-amazon.com/images/I/71ZZYh0vyNL._SY522_.jpg",
+            "description": "Fala sobre fatos e comportamentos humanos que são constantes ao longo do tempo",
+            "category": ["Categoria1"]
+        },
+        {
+            "title": "Falando com estranhos",
+            "author": "Malcolm Gladwell",
+            "url": "https://a.co/d/0aAVtWVa",
+            "image": "https://m.media-amazon.com/images/I/61SIolhTz-L._SY522_.jpg",
+            "description": "Baita livro que explora como interpretamos e nos comunicamos com pessoas que não conhecemos, e os erros comuns que cometemos ao julgar os outros. Livro pode ser meio pesado, mas é muito interessante para entender a complexidade das interações humanas.",
+            "category": ["Categoria1"]
+        },
+        {
+            "title": "O andar do bêbado",
+            "author": "Leonard Mlodinow",
+            "url": "https://a.co/d/00LkH1S8",
+            "image": "https://m.media-amazon.com/images/I/81KdmY4M-7L._SY522_.jpg",
+            "description": "Livro fascinante sobre o papel do acaso e da aleatoriedade em nossas vidas, conta brevemente a história da estatística/probabilidade, e como muitas vezes subestimamos a influência do fator sorte em nossos sucessos e fracassos. Ajuda a ter uma perspectiva mais realista sobre o que podemos controlar e o que é imprevisível.",
+            "category": ["Categoria1"]
+        }
+
+    ]
+}

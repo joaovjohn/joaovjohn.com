@@ -2,7 +2,7 @@
 
 import { useAudio } from '@/contexts/AudioContext';
 import { type IButtonProps } from '@/contracts/interfaces/IButton';
-import { Link } from '@/i18n/routing';
+import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import useSound from 'use-sound';
 
@@ -15,6 +15,7 @@ export default function ButtonDefault({
     onClick,
     onMouseEnter,
     size = 'md',
+    fullWidth = false,
     ...props 
 }: IButtonProps) {
     const sizeClasses =
@@ -95,10 +96,50 @@ export default function ButtonDefault({
         );
     }
 
+    // Define dimensions based on size - mantém tamanho original
+    const getSizeDimensions = () => {
+        if (size === 'sm') {
+            return {
+                button: { width: 240, height: 44 },
+                hover: { width: 230, height: 36 },
+                container: { width: 240, height: 50 },
+                heightClass: 'h-[44px]',
+                hoverHeightClass: 'h-9',
+                containerHeightClass: 'h-[50px]',
+                textClass: 'text-base pl-5'
+            };
+        }
+        if (size === 'lg') {
+            return {
+                button: { width: 360, height: 58 },
+                hover: { width: 345, height: 48 },
+                container: { width: 360, height: 68 },
+                heightClass: 'h-[58px]',
+                hoverHeightClass: 'h-12',
+                containerHeightClass: 'h-[68px]',
+                textClass: 'text-xl pl-7'
+            };
+        }
+        // Default (md) - tamanho original do projeto
+        return {
+            button: { width: 300, height: 48 },
+            hover: { width: 288, height: 40 },
+            container: { width: 300, height: 56 },
+            heightClass: 'h-12',
+            hoverHeightClass: 'h-10',
+            containerHeightClass: 'h-14',
+            textClass: 'text-lg pl-6'
+        };
+    };
+    
+    const dimensions = getSizeDimensions();
+
     return (
         <button
-            className={`group relative w-fit transition-all duration-300 ease-out
-                ${disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:scale-110'} 
+            className={`group relative transition-all duration-300 ease-out
+                ${fullWidth ? 'w-full' : 'w-fit'}
+                ${disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:scale-105'} 
+                focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent
                 ${className}`}
             disabled={disabled}
             onClick={(event) => {
@@ -109,6 +150,9 @@ export default function ButtonDefault({
                 playHover();
                 onMouseEnter?.(event);
             }}
+            onFocus={() => {
+                playHover();
+            }}
             {...props}
         >
             {/* Efeito de brilho */}
@@ -118,9 +162,9 @@ export default function ButtonDefault({
             <Image
                 src="/svg/button_default_complete.svg"
                 alt=""
-                width={300}
-                height={48}
-                className="relative w-full min-w-[200px] sm:min-w-[250px] md:min-w-[300px] h-12 group-hover:opacity-0 transition-all duration-300"
+                width={dimensions.button.width}
+                height={dimensions.button.height}
+                className={`relative w-full ${dimensions.heightClass} group-hover:opacity-0 transition-all duration-300 ${fullWidth ? '' : 'min-w-[200px] sm:min-w-[250px] md:min-w-[300px]'}`}
                 style={{ imageRendering: 'pixelated' }}
             />
 
@@ -128,26 +172,26 @@ export default function ButtonDefault({
             <Image
                 src="/svg/button_hover.svg"
                 alt=""
-                width={288}
-                height={40}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[96%] h-10 opacity-0 group-hover:opacity-100 group-hover:animate-pulse-scale transition-all duration-300 drop-shadow-lg"
+                width={dimensions.hover.width}
+                height={dimensions.hover.height}
+                className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[96%] ${dimensions.hoverHeightClass} opacity-0 group-hover:opacity-100 group-hover:animate-pulse-scale transition-all duration-300 drop-shadow-lg`}
                 style={{ imageRendering: 'pixelated' }}
             />
 
-            {/* Container de fundo (hover) - mais alto */}
+            {/* Container de fundo (hover) */}
             <Image
                 src="/svg/button_hover_container.svg"
                 alt=""
-                width={300}
-                height={56}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-14 opacity-0 group-hover:opacity-70 transition-all duration-300 pointer-events-none"
+                width={dimensions.container.width}
+                height={dimensions.container.height}
+                className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full ${dimensions.containerHeightClass} opacity-0 group-hover:opacity-70 transition-all duration-300 pointer-events-none`}
                 style={{ imageRendering: 'pixelated' }}
             />
 
             {/* Texto do botão */}
             <span 
-                className="absolute inset-0 flex items-center pl-6 text-lg tracking-[0.15em] text-gray-800 group-hover:text-black transition-all duration-300 pointer-events-none z-10"
-                style={{ fontFamily: 'ManifontGroteskBookItalic, sans-serif' }}
+                className={`absolute inset-0 flex items-center ${dimensions.textClass} tracking-[0.15em] text-gray-800 group-hover:text-black transition-all duration-300 pointer-events-none z-10`}
+                style={{ fontFamily: 'Archivo Narrow, sans-serif', fontWeight: 500 }}
             >
                 {children}
             </span>

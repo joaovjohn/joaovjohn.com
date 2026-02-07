@@ -21,4 +21,8 @@ export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     onHover?: () => void;
     disableSound?: boolean;
     style?: CSSProperties;
+    /**
+     * Se true, o botão ocupa 100% da largura do container sem min-width.
+     */
+    fullWidth?: boolean;
 }

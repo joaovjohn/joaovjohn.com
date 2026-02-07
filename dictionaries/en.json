@@ -18,5 +18,21 @@
         "nowPlaying": "Now Playing",
         "music": "Music",
         "effects": "Effects"
+    },
+    "books": {
+        "subtitle": "Some cool books to entertain yourself with",
+        "search": "Search",
+        "searchPlaceholder": "Search by title, author or category...",
+        "filterByCategory": "Filter by category",
+        "allCategories": "All",
+        "noResults": "No books found",
+        "tryDifferentSearch": "Try searching with different terms",
+        "resultsCount": "{count, plural, =1 {# book found} other {# books found}}",
+        "keyboardHint": "Use arrow keys to navigate between books",
+        "booksList": "Books list",
+        "viewBook": "View book",
+        "buy": "Buy",
+        "errorLoading": "Error loading books",
+        "tryAgain": "Try again"
     }
 }

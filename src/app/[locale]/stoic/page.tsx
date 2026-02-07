@@ -1,13 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useTransition } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import Image from 'next/image';
 import { stoicService } from '@/services/stoic.service';
-import ButtonDefault from '@/components/ButtonDefault';
+import ButtonBack from '@/components/ButtonBack';
 import ButtonSwitch from '@/components/ButtonSwitch';
 import { useAudio } from '@/contexts/AudioContext';
-import { useRouter } from '@/i18n/routing';
 import { BiSolidRightArrow, BiSolidLeftArrow } from "react-icons/bi";
 
 
@@ -19,36 +18,47 @@ interface Quote {
 export default function StoicPage() {
     const locale = useLocale();
     const t = useTranslations();
-    const router = useRouter();
     const { sfxVolume } = useAudio();
     const [quotes, setQuotes] = useState<Quote[]>([]);
     const [current, setCurrent] = useState(0);
     const [isLoadingQuotes, setIsLoadingQuotes] = useState(true);
     const [touchStart, setTouchStart] = useState(0);
     const [touchEnd, setTouchEnd] = useState(0);
+    const [isPending, startTransition] = useTransition();
+    const previousLocaleRef = useRef(locale);
 
 
     useEffect(() => {
         const loadQuotes = async () => {
-            setIsLoadingQuotes(true);
+            // Only show loading if locale actually changed
+            const localeChanged = previousLocaleRef.current !== locale;
+            if (localeChanged) {
+                setIsLoadingQuotes(true);
+            }
+            previousLocaleRef.current = locale;
+            
             const validLocale = (locale === 'pt-br' || locale === 'en') ? locale : 'en';
             const allQuotes = await stoicService.getQuotes(validLocale);
             const dailyQuotes = stoicService.getDailyQuotes(allQuotes);
             setQuotes(dailyQuotes);
             
-            const savedIndex = sessionStorage.getItem('stoicIndex');
-            if (savedIndex) {
-                const index = parseInt(savedIndex);
-                if (!isNaN(index) && index >= 0 && index < dailyQuotes.length) {
-                    setCurrent(index);
+            // Only restore saved index on initial load, not on locale change
+            if (!localeChanged) {
+                const savedIndex = sessionStorage.getItem('stoicIndex');
+                if (savedIndex) {
+                    const index = parseInt(savedIndex);
+                    if (!isNaN(index) && index >= 0 && index < dailyQuotes.length) {
+                        setCurrent(index);
+                    }
                 }
-            } else {
-                setCurrent(0);
             }
             
             setIsLoadingQuotes(false);
         };
-        loadQuotes();
+        
+        startTransition(() => {
+            loadQuotes();
+        });
     }, [locale]);
 
     useEffect(() => {
@@ -87,7 +97,9 @@ export default function StoicPage() {
         if (current < quotes.length - 1) setCurrent(current + 1);
     };
 
-    if (isLoadingQuotes) {
+    // Only show loading on initial load, not on locale change
+    // This prevents the flash when switching languages
+    if (isLoadingQuotes && quotes.length === 0) {
         return (
             <div className="min-h-screen relative flex items-center justify-center overflow-hidden">
                 <Image 
@@ -97,6 +109,7 @@ export default function StoicPage() {
                     className="object-cover"
                     priority
                 />
+                <div className="absolute inset-0 bg-black/40 z-1" />
                 <div className="relative z-10 text-white text-xl font-light backdrop-blur-sm px-6 py-3 rounded-lg bg-black/30">
                     {t('loading')}
                 </div>
@@ -125,15 +138,9 @@ export default function StoicPage() {
             {/* Overlay escuro para legibilidade */}
             <div className="absolute inset-0 bg-black/40 z-1" />
 
-            {/* Botão Voltar - Estilo ButtonDefault com sons */}
+            {/* Botão Voltar */}
             <div className="absolute top-10 left-10 z-20">
-                <ButtonDefault
-                    variant="back"
-                    size="sm"
-                    onClick={() => router.push('/')}
-                >
-                    {t('back')}
-                </ButtonDefault>
+                <ButtonBack />
             </div>
 
             {/* Container principal com navegação */}
