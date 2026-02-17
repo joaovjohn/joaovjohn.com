@@ -1,12 +1,16 @@
-interface Quote {
-  text: string;
-  author: string;
+import fs from 'fs/promises';
+import path from 'path';
+
+export interface Quote {
+    text: string;
+    author: string;
 }
 
 export const stoicService = {
     async getQuotes(lang: 'en' | 'pt-br' = 'en'): Promise<Quote[]> {
-        const res = await fetch(`/content/stoic/quotes-${lang}.json`);
-        const data = await res.json();
+        const filePath = path.join(process.cwd(), `public/content/stoic/quotes-${lang}.json`);
+        const fileContent = await fs.readFile(filePath, 'utf-8');
+        const data = JSON.parse(fileContent);
         return data.quotes;
     },
 

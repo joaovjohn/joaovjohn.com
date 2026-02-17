@@ -1,3 +1,6 @@
+import fs from 'fs/promises';
+import path from 'path';
+
 export interface Book {
     title: string;
     author: string;
@@ -9,26 +12,10 @@ export interface Book {
 
 export const bookService = {
     async getBooks(lang: 'en' | 'pt-br' = 'pt-br'): Promise<Book[]> {
-        const cacheKey = `books-${lang}`;
-        
-        // Check sessionStorage cache
-        if (typeof window !== 'undefined') {
-            const cached = sessionStorage.getItem(cacheKey);
-            if (cached) {
-                return JSON.parse(cached);
-            }
-        }
-
-        const res = await fetch(`/content/book/books-${lang}.json`);
-        const data = await res.json();
-        const books = data.books || [];
-        
-        // Cache in sessionStorage
-        if (typeof window !== 'undefined') {
-            sessionStorage.setItem(cacheKey, JSON.stringify(books));
-        }
-        
-        return books;
+        const filePath = path.join(process.cwd(), `public/content/book/books-${lang}.json`);
+        const fileContent = await fs.readFile(filePath, 'utf-8');
+        const data = JSON.parse(fileContent);
+        return data.books || [];
     },
 
     searchBooks(books: Book[], query: string): Book[] {

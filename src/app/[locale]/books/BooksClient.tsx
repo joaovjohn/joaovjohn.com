@@ -1,84 +1,24 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import { bookService, type Book } from '@/services/book.service';
+import type { Book } from '@/services/book.service';
 import { useAudio } from '@/contexts/AudioContext';
 import useSound from 'use-sound';
 import ButtonDefault from '@/components/ButtonDefault';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 
 interface BooksClientProps {
-    locale: string;
+    books: Book[];
 }
 
-function BookCardSkeleton() {
-    return (
-        <div className="animate-pulse bg-black/60 border-4 border-white/20 p-4" style={{ imageRendering: 'pixelated' }}>
-            {/* Image skeleton - aspect ratio 2:3 para capas de livros */}
-            <div className="w-full aspect-2/3 bg-white/20 border-2 border-white/10 mb-4" />
-            
-            {/* Title skeleton */}
-            <div className="h-5 bg-white/20 w-3/4 mb-2" />
-            
-            {/* Author skeleton */}
-            <div className="h-4 bg-white/20 w-1/2 mb-4" />
-            
-            {/* Button skeleton */}
-            <div className="h-10 bg-yellow-400/30 border-2 border-yellow-400/50 w-full" />
-        </div>
-    );
-}
-
-function BookGridSkeleton({ count = 6 }: { count?: number }) {
-    return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array.from({ length: count }, (_, i) => (
-                <BookCardSkeleton key={i} />
-            ))}
-        </div>
-    );
-}
-
-export default function BooksClient({ locale }: BooksClientProps) {
+export default function BooksClient({ books }: BooksClientProps) {
     const t = useTranslations();
     const { sfxVolume } = useAudio();
     const [playHover] = useSound("/audio/hover.mp3", { volume: sfxVolume });
     const [playClick] = useSound("/audio/click.mp3", { volume: sfxVolume });
     const [playSwitch] = useSound("/audio/switch.mp3", { volume: sfxVolume });
-
-    const [books, setBooks] = useState<Book[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const previousLocaleRef = useRef(locale);
-
-    // Load books on mount
-    useEffect(() => {
-        const loadBooks = async () => {
-            try {
-                // Only show loading if locale actually changed
-                const localeChanged = previousLocaleRef.current !== locale;
-                if (localeChanged) {
-                    // Don't show loading on locale change to avoid flash
-                    setIsLoading(false);
-                }
-                previousLocaleRef.current = locale;
-
-                setError(null);
-                const data = await bookService.getBooks(locale as 'pt-br' | 'en');
-                setBooks(data);
-            } catch (err) {
-                console.error('Error loading books:', err);
-                setError(t('books.errorLoading'));
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        loadBooks();
-    }, [locale, t]);
-
     const [expandedInfo, setExpandedInfo] = useState<string | null>(null);
 
     const handleBookClick = (url: string) => {
@@ -90,31 +30,11 @@ export default function BooksClient({ locale }: BooksClientProps) {
         playHover();
     };
 
-    const toggleInfo = (url: string, e: React.MouseEvent) => {
+    const handleToggleInfo = (url: string, e: React.MouseEvent) => {
         e.stopPropagation();
         setExpandedInfo(prev => prev === url ? null : url);
+        playSwitch();
     };
-
-    // Only show loading on initial load, not on locale change
-    // Use invisible placeholder instead of skeleton to avoid flash on remount
-    if (isLoading && books.length === 0) {
-        return <div className="min-h-[60vh]" />;
-    }
-
-    if (error) {
-        return (
-            <div className="text-center py-12">
-                <p className="text-white/80 text-lg mb-4">{error}</p>
-                <ButtonDefault
-                    variant="ghost"
-                    onClick={() => window.location.reload()}
-                    className="text-white hover:text-yellow-400"
-                >
-                    {t('books.tryAgain')}
-                </ButtonDefault>
-            </div>
-        );
-    }
 
     if (books.length === 0) {
         return (
@@ -125,11 +45,6 @@ export default function BooksClient({ locale }: BooksClientProps) {
             </div>
         );
     }
-
-    const handleToggleInfo = (url: string, e: React.MouseEvent) => {
-        toggleInfo(url, e);
-        playSwitch();
-    };
 
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

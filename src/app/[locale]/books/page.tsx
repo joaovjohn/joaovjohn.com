@@ -1,20 +1,35 @@
-'use client';
-
-import { useTranslations, useLocale } from 'next-intl';
+import Image from 'next/image';
+import { getTranslations } from 'next-intl/server';
+import { bookService } from '@/services/book.service';
 import BooksClient from './BooksClient';
 import ButtonBack from '@/components/ButtonBack';
 
-export default function BooksPage() {
-    const t = useTranslations();
-    const locale = useLocale();
+export default async function BooksPage({
+    params,
+}: {
+    params: Promise<{ locale: string }>;
+}) {
+    const { locale } = await params;
+    const t = await getTranslations();
+    const validLocale = (locale === 'pt-br' || locale === 'en') ? locale : 'pt-br';
+    const books = await bookService.getBooks(validLocale);
 
     return (
-        <div
-            className="min-h-screen relative bg-cover bg-center bg-no-repeat bg-fixed"
-            style={{ backgroundImage: 'url(/img/wallpaper_books.jpg)' }}
-        >
-            {/* Dark overlay for readability */}
-            <div className="fixed inset-0 bg-black/50 z-1" />
+        <div className="min-h-screen relative">
+            {/* Background Image - fixed, server-rendered com priority */}
+            <div className="fixed inset-0 z-0">
+                <Image 
+                    src="/img/wallpaper_books.jpg"
+                    alt=""
+                    fill
+                    className="object-cover"
+                    priority
+                    sizes="100vw"
+                />
+            </div>
+
+            {/* Overlay escuro para legibilidade */}
+            <div className="fixed inset-0 bg-black/50 z-[1]" />
 
             {/* Botão Voltar - fixo no canto */}
             <div className="fixed top-10 left-10 z-20">
@@ -40,8 +55,8 @@ export default function BooksPage() {
                             </p>
                         </header>
 
-                        {/* Books Client Component */}
-                        <BooksClient locale={locale} />
+                        {/* Books Client Component - dados já carregados do servidor */}
+                        <BooksClient books={books} />
                     </div>
                 </div>
             </div>
