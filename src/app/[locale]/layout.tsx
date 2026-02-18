@@ -6,6 +6,7 @@ import { routing } from '@/i18n/routing';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { AudioProvider } from '@/contexts/AudioContext';
 import { AudioPlayer } from '@/components/AudioPlayer';
+import { NavigationLoaderProvider } from '@/contexts/NavigationLoaderContext';
 import GifPreloader from '@/components/GifPreloader';
 import '../globals.css';
 
@@ -60,9 +61,11 @@ export default async function LocaleLayout({
                 <GifPreloader />
                 <NextIntlClientProvider messages={messages}>
                     <AudioProvider>
-                        <LanguageSwitcher />
-                        <AudioPlayer />
-                        {children}
+                        <NavigationLoaderProvider>
+                            <LanguageSwitcher />
+                            <AudioPlayer />
+                            {children}
+                        </NavigationLoaderProvider>
                     </AudioProvider>
                 </NextIntlClientProvider>
             </body>

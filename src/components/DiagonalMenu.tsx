@@ -1,10 +1,10 @@
 "use client";
 
-import { Link } from "@/i18n/navigation";
 import { useState } from "react";
 import { ButtonMenu } from "./ButtonMenu";
 import useSound from "use-sound";
-import { useAudio } from "@/contexts/AudioContext"
+import { useAudio } from "@/contexts/AudioContext";
+import { useNavigationLoader } from "@/contexts/NavigationLoaderContext";
 
 export interface DiagonalMenuItem {
     href: string;
@@ -17,11 +17,11 @@ interface DiagonalMenuProps {
 
 export function DiagonalMenu({ items }: DiagonalMenuProps) {
     const [activeIndex, setActiveIndex] = useState(0);
-    const { sfxVolume } = useAudio()
+    const { sfxVolume } = useAudio();
     const [playClick] = useSound("/audio/click.mp3", { volume: sfxVolume });
+    const { navigateTo } = useNavigationLoader();
 
-    // Offset diagonal: mais agressivo horizontalmente, compacto verticalmente
-    const baseOffsetX = 4; // vw por item (aumentado para mais diagonal)
+    const baseOffsetX = 4;
 
     return (
         <nav
@@ -33,24 +33,24 @@ export function DiagonalMenu({ items }: DiagonalMenuProps) {
                 const isActive = index === activeIndex;
 
                 return (
-                    <Link
+                    <button
                         key={item.href}
-                        href={item.href}
-                        className="block no-underline focus:outline-none focus-visible:ring-2 focus-visible:ring-cor-1 rounded"
+                        type="button"
+                        className="block text-left no-underline focus:outline-none focus-visible:ring-2 focus-visible:ring-cor-1 rounded cursor-pointer"
                         style={{
                             marginLeft: `${index * baseOffsetX}vw`,
                             marginTop: index === 0 ? 0 : "-35px",
                             transform: "scale(0.9)",
                             transformOrigin: "center",
                         }}
-                        onClick={() => { playClick() }}
+                        onClick={() => { playClick(); navigateTo(item.href); }}
                     >
                         <ButtonMenu 
                             label={item.label} 
                             isActive={isActive} 
                             onMouseEnter={() => setActiveIndex(index)} 
                         />
-                    </Link>
+                    </button>
                 );
             })}
         </nav>

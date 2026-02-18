@@ -1,15 +1,15 @@
 'use client';
 
-import { useRouter } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import ButtonDefault from '@/components/ButtonDefault';
+import { useNavigationLoader } from '@/contexts/NavigationLoaderContext';
 
 export default function ButtonBack() {
-    const router = useRouter();
+    const { navigateTo } = useNavigationLoader();
     const t = useTranslations();
 
     const handleClick = () => {
-        router.push('/');
+        navigateTo('/');
     };
 
     return (

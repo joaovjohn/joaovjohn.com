@@ -2,38 +2,28 @@
 
 import { useEffect, useState, type ReactNode } from 'react';
 
-/** Cache de imagens já carregadas — persiste entre re-mounts (troca de locale). */
-const loadedImages = new Set<string>();
-
 interface PageRevealProps {
     backgroundSrc: string;
     children: ReactNode;
 }
 
 /**
- * Mostra o conteúdo imediatamente (wallpaper carrega progressivamente)
- * e exibe o GIF de loading até o wallpaper estar 100% pronto.
+ * Renderiza children imediatamente. Exibe GIF de loading apenas
+ * no primeiro acesso direto (URL) até o wallpaper carregar.
+ * Na navegação interna, o wallpaper já foi pré-carregado pelo NavigationLoader.
  */
 export default function PageReveal({ backgroundSrc, children }: PageRevealProps) {
-    const [ready, setReady] = useState(loadedImages.has(backgroundSrc));
+    const [ready, setReady] = useState(false);
 
     useEffect(() => {
-        if (ready) return;
-
         const bg = new window.Image();
         bg.src = backgroundSrc;
 
-        const done = () => {
-            loadedImages.add(backgroundSrc);
-            setReady(true);
-        };
+        if (bg.complete) { setReady(true); return; }
 
-        if (bg.complete) done();
-        else {
-            bg.onload = done;
-            bg.onerror = done;
-        }
-    }, [backgroundSrc, ready]);
+        bg.onload = () => setReady(true);
+        bg.onerror = () => setReady(true);
+    }, [backgroundSrc]);
 
     return (
         <>
