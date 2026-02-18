@@ -6,6 +6,7 @@ import { routing } from '@/i18n/routing';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { AudioProvider } from '@/contexts/AudioContext';
 import { AudioPlayer } from '@/components/AudioPlayer';
+import GifPreloader from '@/components/GifPreloader';
 import '../globals.css';
 
 const geistSans = Geist({
@@ -50,7 +51,13 @@ export default async function LocaleLayout({
 
     return (
         <html lang={locale}>
+            <head>
+                {/* Pré-carrega o GIF com alta prioridade para estar disponível em todas as telas de loading */}
+                <link rel="preload" as="image" href="/img/loading.gif" type="image/gif" fetchPriority="high" />
+            </head>
             <body className={`${geistSans.variable} ${geistMono.variable} ${pressStart2P.variable} ${archivoBlack.variable} antialiased`}>
+                {/* GIF preloader invisível — garante que o browser decodifique o GIF na primeira visita */}
+                <GifPreloader />
                 <NextIntlClientProvider messages={messages}>
                     <AudioProvider>
                         <LanguageSwitcher />

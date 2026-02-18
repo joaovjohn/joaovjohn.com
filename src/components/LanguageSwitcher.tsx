@@ -18,14 +18,14 @@ export default function LanguageSwitcher() {
 
     return (
         <div className="fixed top-6 right-6 z-50">
-            <div className={`flex gap-2 bg-white border border-cor-border rounded-full p-1 shadow-md transition-opacity ${isPending ? 'opacity-70' : ''}`}>
+            <div className={`flex gap-2 bg-black/60 backdrop-blur-sm border border-white/20 rounded-full p-1 shadow-md transition-opacity ${isPending ? 'opacity-70' : ''}`}>
                 <button
                     onClick={() => handleLanguageChange('pt-br')}
                     disabled={isPending}
                     className={`px-4 py-2 cursor-pointer rounded-full transition-all duration-300 ${
                         locale === 'pt-br'
-                            ? 'bg-cor-1 text-white font-semibold'
-                            : 'text-cor-1-lighter hover:text-cor-1'
+                            ? 'bg-white text-black font-semibold'
+                            : 'text-white/60 hover:text-white'
                     } ${isPending ? 'cursor-wait' : ''}`}
                     aria-label="Português"
                 >
@@ -36,8 +36,8 @@ export default function LanguageSwitcher() {
                     disabled={isPending}
                     className={`px-4 py-2 cursor-pointer rounded-full transition-all duration-300 ${
                         locale === 'en'
-                            ? 'bg-cor-1 text-white font-semibold'
-                            : 'text-cor-1-lighter hover:text-cor-1'
+                            ? 'bg-white text-black font-semibold'
+                            : 'text-white/60 hover:text-white'
                     } ${isPending ? 'cursor-wait' : ''}`}
                     aria-label="English"
                 >

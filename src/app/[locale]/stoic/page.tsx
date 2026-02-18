@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { stoicService } from '@/services/stoic.service';
 import ButtonBack from '@/components/ButtonBack';
 import StoicClient from './StoicClient';
+import PageReveal from '@/components/PageReveal';
 
 export default async function StoicPage({
     params,
@@ -14,27 +15,29 @@ export default async function StoicPage({
     const dailyQuotes = stoicService.getDailyQuotes(allQuotes);
 
     return (
-        <div className="min-h-screen relative overflow-hidden">
-            {/* Background Wallpaper - server-rendered com priority */}
-            <Image 
-                src="/img/wallpaper_stoic.png" 
-                alt="" 
-                fill 
-                className="object-cover"
-                priority
-                sizes="100vw"
-            />
+        <PageReveal backgroundSrc="/img/wallpaper_stoic.png">
+            <div className="min-h-screen relative overflow-hidden">
+                {/* Background Wallpaper - server-rendered com priority */}
+                <Image 
+                    src="/img/wallpaper_stoic.png" 
+                    alt="" 
+                    fill 
+                    className="object-cover"
+                    priority
+                    sizes="100vw"
+                />
 
-            {/* Overlay escuro para legibilidade */}
-            <div className="absolute inset-0 bg-black/40 z-[1]" />
+                {/* Overlay escuro para legibilidade */}
+                <div className="absolute inset-0 bg-black/40 z-1" />
 
-            {/* Botão Voltar */}
-            <div className="absolute top-10 left-10 z-20">
-                <ButtonBack />
+                {/* Botão Voltar */}
+                <div className="absolute top-10 left-10 z-20">
+                    <ButtonBack />
+                </div>
+
+                {/* Conteúdo interativo - client side */}
+                <StoicClient quotes={dailyQuotes} />
             </div>
-
-            {/* Conteúdo interativo - client side */}
-            <StoicClient quotes={dailyQuotes} />
-        </div>
+        </PageReveal>
     );
 }

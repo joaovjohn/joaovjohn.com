@@ -25,7 +25,7 @@
 }
 
 body {
-  background: var(--cor-bg);
+  background: #000000;
   color: var(--cor-text);
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -97,4 +97,14 @@ body {
 
 .animate-pulse-blink {
   animation: pulse-blink 1.5s ease-in-out infinite;
+}
+
+/* Fade-in suave para reveal de páginas */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out forwards;
 }
