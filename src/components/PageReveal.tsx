@@ -1,11 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
-/**
- * Cache de imagens carregadas — persiste entre re-mounts (troca de locale, etc).
- * Garante que a troca de idioma não re-exiba o overlay.
- */
+/** Cache de imagens já carregadas — persiste entre re-mounts (troca de locale). */
 const loadedImages = new Set<string>();
 
 interface PageRevealProps {
@@ -14,67 +11,44 @@ interface PageRevealProps {
 }
 
 /**
- * Exibe GIF de loading em fundo preto até a imagem de background da página
- * estar 100% carregada. Se a imagem já está em cache (troca de locale,
- * navegação de volta), renderiza conteúdo instantaneamente sem overlay.
+ * Mostra o conteúdo imediatamente (wallpaper carrega progressivamente)
+ * e exibe o GIF de loading até o wallpaper estar 100% pronto.
  */
 export default function PageReveal({ backgroundSrc, children }: PageRevealProps) {
-    const overlayRef = useRef<HTMLDivElement>(null);
-    const cached = loadedImages.has(backgroundSrc);
-    const [revealed, setRevealed] = useState(cached);
+    const [ready, setReady] = useState(loadedImages.has(backgroundSrc));
 
     useEffect(() => {
-        if (revealed) return;
+        if (ready) return;
 
-        // 1. Montar GIF no overlay via DOM (garante renderização)
-        const gif = document.createElement('img');
-        gif.src = '/img/loading.gif';
-        gif.width = 130;
-        gif.height = 130;
-        gif.style.cssText = 'position:absolute;bottom:3rem;left:6rem;object-fit:contain;pointer-events:none;user-select:none;';
-        gif.setAttribute('aria-hidden', 'true');
-        gif.alt = '';
-
-        if (overlayRef.current) {
-            overlayRef.current.appendChild(gif);
-        }
-
-        // 2. Aguardar imagem de fundo carregar
         const bg = new window.Image();
         bg.src = backgroundSrc;
 
-        const reveal = () => {
+        const done = () => {
             loadedImages.add(backgroundSrc);
-            setRevealed(true);
+            setReady(true);
         };
 
-        if (bg.complete) {
-            reveal();
-        } else {
-            bg.onload = reveal;
-            bg.onerror = reveal;
+        if (bg.complete) done();
+        else {
+            bg.onload = done;
+            bg.onerror = done;
         }
-
-        return () => { gif.remove(); };
-    }, [backgroundSrc, revealed]);
-
-    // Imagem já em cache → renderiza diretamente, sem overlay nem fade
-    if (cached) {
-        return <>{children}</>;
-    }
+    }, [backgroundSrc, ready]);
 
     return (
         <>
-            {!revealed && (
-                <div
-                    ref={overlayRef}
-                    className="fixed inset-0 bg-black"
-                    style={{ zIndex: 99999 }}
+            {children}
+            {!ready && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                    src="/img/loading.gif"
+                    alt=""
+                    aria-hidden="true"
+                    width={130}
+                    height={130}
+                    className="fixed bottom-12 left-24 z-[99999] pointer-events-none select-none object-contain"
                 />
             )}
-            <div className={revealed ? 'animate-fade-in' : 'invisible'}>
-                {children}
-            </div>
         </>
     );
 }
