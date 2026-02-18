@@ -15,16 +15,19 @@ const preloaded = new Set<string>();
 
 interface NavigationLoaderCtx {
     navigateTo: (href: string) => void;
+    stopLoading: () => void;
     isLoading: boolean;
 }
 
-const Ctx = createContext<NavigationLoaderCtx>({ navigateTo: () => {}, isLoading: false });
+const Ctx = createContext<NavigationLoaderCtx>({ navigateTo: () => {}, stopLoading: () => {}, isLoading: false });
 
 export const useNavigationLoader = () => useContext(Ctx);
 
 export function NavigationLoaderProvider({ children }: { children: ReactNode }) {
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
+
+    const stopLoading = useCallback(() => setIsLoading(false), []);
 
     const navigateTo = useCallback((href: string) => {
         const wallpaper = WALLPAPERS[href];
@@ -43,7 +46,7 @@ export function NavigationLoaderProvider({ children }: { children: ReactNode }) 
         const go = () => {
             preloaded.add(wallpaper);
             router.push(href);
-            setIsLoading(false);
+            // NÃO para o loading aqui — PageReveal da página destino chama stopLoading
         };
 
         if (img.complete) go();
@@ -54,7 +57,7 @@ export function NavigationLoaderProvider({ children }: { children: ReactNode }) 
     }, [router]);
 
     return (
-        <Ctx.Provider value={{ navigateTo, isLoading }}>
+        <Ctx.Provider value={{ navigateTo, stopLoading, isLoading }}>
             {children}
             {isLoading && (
                 // eslint-disable-next-line @next/next/no-img-element

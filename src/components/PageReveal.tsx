@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, type ReactNode } from 'react';
+import { useNavigationLoader } from '@/contexts/NavigationLoaderContext';
 
 interface PageRevealProps {
     backgroundSrc: string;
@@ -10,20 +11,23 @@ interface PageRevealProps {
 /**
  * Renderiza children imediatamente. Exibe GIF de loading apenas
  * no primeiro acesso direto (URL) até o wallpaper carregar.
- * Na navegação interna, o wallpaper já foi pré-carregado pelo NavigationLoader.
+ * Na navegação interna, sinaliza ao NavigationLoader que a página está pronta.
  */
 export default function PageReveal({ backgroundSrc, children }: PageRevealProps) {
+    const { stopLoading } = useNavigationLoader();
     const [ready, setReady] = useState(false);
 
     useEffect(() => {
         const bg = new window.Image();
         bg.src = backgroundSrc;
 
-        if (bg.complete) { setReady(true); return; }
+        const done = () => { setReady(true); stopLoading(); };
 
-        bg.onload = () => setReady(true);
-        bg.onerror = () => setReady(true);
-    }, [backgroundSrc]);
+        if (bg.complete) { done(); return; }
+
+        bg.onload = done;
+        bg.onerror = done;
+    }, [backgroundSrc, stopLoading]);
 
     return (
         <>
