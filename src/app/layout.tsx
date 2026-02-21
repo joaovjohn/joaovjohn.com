@@ -6,14 +6,16 @@ import { GoogleAnalytics, MicrosoftClarity, PageViewTracker } from '@/components
 export const metadata: Metadata = {
     title: {
         template: '%s | João Vitor John (joaovjohn)',
-        default: 'João Vitor John (joaovjohn) | Desenvolvedor Full Stack', // Título da Home
+        default: 'João Vitor John - Fullstack Developer', 
     },
-    description: 'Portfólio de João Vitor John. Desenvolvedor de software especializado em desenvolvimento web, PHP e Node.js.',
+    description: 'Página legalzinha para se enterter as vezes',
     keywords: [
         "Portifólio Bomba Patch",
         "Página Bomba Patch",
         "João Vitor John",
         "Joao Vitor John",
+        "joao vitor john",
+        "Joao Vitor Klein John",
         "joaovjohn",
         "Portfolio",
         "Desenvolvedor Full-Stack"
@@ -24,9 +26,9 @@ export const metadata: Metadata = {
     },
     openGraph: {
         title: 'João Vitor John - Desenvolvedor',
-        description: 'Confira meu portfólio e projetos.',
+        description: 'Página legalzinha para se enterter as vezes',
         url: 'https://joaovjohn.com',
-        siteName: 'João Vitor John',
+        siteName: 'Joao Vitor John',
         locale: 'pt_BR',
         type: 'website',
     },
