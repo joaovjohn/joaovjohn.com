@@ -1,109 +1,108 @@
-
 {
-    "books": [
-        {
-            "title": "21 lições para o século 21",
-            "author": "Yuval Noah Harari",
-            "url": "https://a.co/d/0c1MAOky",
-            "image": "https://m.media-amazon.com/images/I/71klPwA3ZqL._SY522_.jpg",
-            "description": "Foi primeiro livro que li por completo e que fez eu gostar de leitura, o livro fala sobre questões importantes que a humanidade enfrenta no século 21, como inteligência artificial, mudanças climáticas, desigualdade social, entre outros. O autor apresenta uma análise profunda e provocativa sobre o futuro da humanidade e como podemos nos preparar para ele.",
-            "category": ["Categoria1"]
-        },
-        {
-            "title": "A Vida Intelectual",
-            "author": "Antonin-Dalmace Sertillanges",
-            "url": "https://a.co/d/0ebF4YPy",
-            "image": "https://m.media-amazon.com/images/I/61Qro2FtsqL._SY522_.jpg",
-            "description": "Leitura obrigatória, baita livro que fala sobre a importância da vida intelectual, do estudo e da busca pelo conhecimento, e como isso pode trazer sentido e propósito para a vida. É uma leitura um pouco pesada mas é atemporal",
-            "category": ["Categoria1"]
-        },
-        {
-            "title": "10% mais feliz",
-            "author": "Dan Harris",
-            "url": "https://a.co/d/dd9uSu4",
-            "image": "https://m.media-amazon.com/images/I/71USnLguEOL._SY522_.jpg",
-            "description": "Livro muito bom sobre meditação e mindfulness, escrito por um jornalista que passou por uma experiência de quase morte e descobriu a prática como uma forma de lidar com o estresse e a ansiedade do dia a dia.",
-            "category": ["Categoria1"]
-        },
-        {
-            "title": "O andar do bêbado",
-            "author": "Leonard Mlodinow",
-            "url": "https://a.co/d/00LkH1S8",
-            "image": "https://m.media-amazon.com/images/I/81KdmY4M-7L._SY522_.jpg",
-            "description": "Livro fascinante sobre o papel do acaso e da aleatoriedade em nossas vidas, conta brevemente a história da estatística/probabilidade, e como muitas vezes subestimamos a influência do fator sorte em nossos sucessos e fracassos. Ajuda a ter uma perspectiva mais realista sobre o que podemos controlar e o que é imprevisível.",
-            "category": ["Categoria1"]
-        },
-        {
-            "title": "Rápido e devagar: Duas formas de pensar",
-            "author": "Daniel Kahneman",
-            "url": "https://a.co/d/04xsJCN2",
-            "image": "https://m.media-amazon.com/images/I/61pt9lG-PvL._SY522_.jpg",
-            "description": "Clássico da psicologia e economia comportamental, escrito por um ganhador do Nobel. O livro explora os dois sistemas de pensamento que governam nossas decisões: o sistema rápido, intuitivo e emocional, e o sistema lento, deliberativo e lógico. É uma leitura densa/pesada mas descreve muito bem como pensamos e tomamos decisões.",
-            "category": ["Categoria1"]
-        },
-        {
-            "title": "O mesmo de sempre",
-            "author": "Morgan Housel",
-            "url": "https://a.co/d/0adW9hub",
-            "image": "https://m.media-amazon.com/images/I/71ZZYh0vyNL._SY522_.jpg",
-            "description": "Fala sobre fatos e comportamentos humanos que são constantes ao longo do tempo",
-            "category": ["Categoria1"]
-        },
-        {
-            "title": "Falando com estranhos",
-            "author": "Malcolm Gladwell",
-            "url": "https://a.co/d/0aAVtWVa",
-            "image": "https://m.media-amazon.com/images/I/61SIolhTz-L._SY522_.jpg",
-            "description": "Baita livro que explora como interpretamos e nos comunicamos com pessoas que não conhecemos, e os erros comuns que cometemos ao julgar os outros. Livro pode ser meio pesado, mas é muito interessante para entender a complexidade das interações humanas.",
-            "category": ["Categoria1"]
-        },
-        {
-            "title": "Meditações",
-            "author": "Marco Aurélio",
-            "url": "https://a.co/d/05VSmz5I",
-            "image": "https://m.media-amazon.com/images/I/612B0id4gNL._SY522_.jpg",
-            "description": "Clássico da filosofia estoica. O livro é um diário do Marco Aurélio, um dos maiores imperadores romanos. Obrigatório para quem gosta de estoicismo.",
-            "category": ["Categoria1"]
-        },
-        {
-            "title": "Manual de Epicteto",
-            "author": "Epicteto",
-            "url": "https://a.co/d/0b9J3aJg",
-            "image": "https://m.media-amazon.com/images/I/61zkj3SiV4L._SY522_.jpg",
-            "description": "Clássico da filosofia estoica, escrito por um escravo que se tornou um dos maiores filósofos de sua época. O livro é uma coleção de ensinamentos e reflexões sobre como viver uma vida virtuosa e feliz, mesmo diante das adversidades.",
-            "category": ["Categoria1"]
-        },
-        {
-            "title": "Sobre a brevidade da vida",
-            "author": "Sêneca",
-            "url": "https://a.co/d/0eVFxxNH",
-            "image": "https://m.media-amazon.com/images/I/71p7I8m6i8L._SY522_.jpg",
-            "description": "Clássico da filosofia estoica, escrito por um dos maiores filósofos romanos. O livro é uma reflexão sobre a natureza efêmera da vida e a importância de aproveitá-la ao máximo, vivendo de acordo com a virtude e a razão.",
-            "category": ["Categoria1"]
-        },
-        {
-            "title": "Diário estoico",
-            "author": "Ryan Holiday",
-            "url": "https://a.co/d/0g0Q7fht",
-            "image": "https://m.media-amazon.com/images/I/71DMS2JCTXL._SY522_.jpg",
-            "description": "Apresenta uma coleção de ensinamentos estoicos organizados em formato de diário, com reflexões diárias e citações de filósofos estoicos. É uma ótima introdução prática ao estoicismo, e pode ser lido em pequenos trechos diários para inspiração e reflexão.",
-            "category": ["Categoria1"]
-        },
-        {
-            "title": "Responsabilidade Extrema: Como os Navy Seals Lideram e Vencem",
-            "author": "Jocko Willink e Leif Babin",
-            "url": "https://a.co/d/0fUNfPkc",
-            "image": "https://m.media-amazon.com/images/I/51lkt3xn7SL._SY522_.jpg",
-            "description": "Escrito por dois ex-Navy Seals, que compartilham suas experiências e lições aprendidas sobre liderança, trabalho em equipe e disciplina. O livro da exemplos práticos aplicados no exercito e no mercado corporativo.",
-            "category": ["Categoria1"]
-        },
-        {
-            "title": "Vá e vença: Decifrando a tropa de elite",
-            "author": "Paulo Storani",
-            "url": "https://a.co/d/0bU80iEm",
-            "image": "https://m.media-amazon.com/images/I/816MTEBzu0L._SY522_.jpg",
-            "description": "Ensina a formar equipes de elite e alta performance, baseado na experiência do autor como ex-capitão do BOPE, faz mençoes ao filme de Tropa de Elite.",
-            "category": ["Categoria1"]
-        }
-    ]
+  "books": [
+    {
+      "title": "21 Lessons for the 21st Century",
+      "author": "Yuval Noah Harari",
+      "url": "https://a.co/d/0c1MAOky",
+      "image": "https://m.media-amazon.com/images/I/71klPwA3ZqL._SY522_.jpg",
+      "description": "It was the first book I read from start to finish that made me enjoy reading. The book discusses important issues humanity faces in the 21st century, such as artificial intelligence, climate change, social inequality, among others. The author presents a deep and thought-provoking analysis of the future of humanity and how we can prepare for it.",
+      "category": ["Categoria1"]
+    },
+    {
+      "title": "The Intellectual Life",
+      "author": "Antonin-Dalmace Sertillanges",
+      "url": "https://a.co/d/0ebF4YPy",
+      "image": "https://m.media-amazon.com/images/I/61Qro2FtsqL._SY522_.jpg",
+      "description": "Must-read. A great book about the importance of the intellectual life, study, and the pursuit of knowledge, and how this can bring meaning and purpose to life. It is a somewhat dense read but timeless.",
+      "category": ["Categoria1"]
+    },
+    {
+      "title": "10% Happier",
+      "author": "Dan Harris",
+      "url": "https://a.co/d/dd9uSu4",
+      "image": "https://m.media-amazon.com/images/I/71USnLguEOL._SY522_.jpg",
+      "description": "A very good book about meditation and mindfulness, written by a journalist who went through a near-death experience and discovered the practice as a way to deal with everyday stress and anxiety.",
+      "category": ["Categoria1"]
+    },
+    {
+      "title": "The Drunkard's Walk",
+      "author": "Leonard Mlodinow",
+      "url": "https://a.co/d/00LkH1S8",
+      "image": "https://m.media-amazon.com/images/I/81KdmY4M-7L._SY522_.jpg",
+      "description": "A fascinating book about the role of chance and randomness in our lives. It briefly tells the history of statistics/probability and how we often underestimate the influence of luck in our successes and failures. It helps develop a more realistic perspective on what we can control and what is unpredictable.",
+      "category": ["Categoria1"]
+    },
+    {
+      "title": "Thinking, Fast and Slow",
+      "author": "Daniel Kahneman",
+      "url": "https://a.co/d/04xsJCN2",
+      "image": "https://m.media-amazon.com/images/I/61pt9lG-PvL._SY522_.jpg",
+      "description": "A classic of psychology and behavioral economics, written by a Nobel Prize winner. The book explores the two systems of thought that govern our decisions: the fast, intuitive and emotional system, and the slow, deliberate and logical system. It is a dense/heavy read but describes very well how we think and make decisions.",
+      "category": ["Categoria1"]
+    },
+    {
+      "title": "Same as Ever",
+      "author": "Morgan Housel",
+      "url": "https://a.co/d/0adW9hub",
+      "image": "https://m.media-amazon.com/images/I/71ZZYh0vyNL._SY522_.jpg",
+      "description": "Talks about facts and human behaviors that remain constant over time.",
+      "category": ["Categoria1"]
+    },
+    {
+      "title": "Talking to Strangers",
+      "author": "Malcolm Gladwell",
+      "url": "https://a.co/d/0aAVtWVa",
+      "image": "https://m.media-amazon.com/images/I/61SIolhTz-L._SY522_.jpg",
+      "description": "A great book that explores how we interpret and communicate with people we don’t know, and the common mistakes we make when judging others. It can be somewhat heavy, but it is very interesting for understanding the complexity of human interactions.",
+      "category": ["Categoria1"]
+    },
+    {
+      "title": "Meditations",
+      "author": "Marcus Aurelius",
+      "url": "https://a.co/d/05VSmz5I",
+      "image": "https://m.media-amazon.com/images/I/612B0id4gNL._SY522_.jpg",
+      "description": "A classic of Stoic philosophy. The book is a journal by Marcus Aurelius, one of the greatest Roman emperors. Essential for anyone interested in Stoicism.",
+      "category": ["Categoria1"]
+    },
+    {
+      "title": "Enchiridion",
+      "author": "Epictetus",
+      "url": "https://a.co/d/0b9J3aJg",
+      "image": "https://m.media-amazon.com/images/I/61zkj3SiV4L._SY522_.jpg",
+      "description": "A classic of Stoic philosophy, written by a former slave who became one of the greatest philosophers of his time. The book is a collection of teachings and reflections on how to live a virtuous and happy life, even in the face of adversity.",
+      "category": ["Categoria1"]
+    },
+    {
+      "title": "On the Shortness of Life",
+      "author": "Seneca",
+      "url": "https://a.co/d/0eVFxxNH",
+      "image": "https://m.media-amazon.com/images/I/71p7I8m6i8L._SY522_.jpg",
+      "description": "A classic of Stoic philosophy, written by one of the greatest Roman philosophers. The book reflects on the fleeting nature of life and the importance of making the most of it by living according to virtue and reason.",
+      "category": ["Categoria1"]
+    },
+    {
+      "title": "The Daily Stoic",
+      "author": "Ryan Holiday",
+      "url": "https://a.co/d/0g0Q7fht",
+      "image": "https://m.media-amazon.com/images/I/71DMS2JCTXL._SY522_.jpg",
+      "description": "Presents a collection of Stoic teachings organized in a daily journal format, with daily reflections and quotes from Stoic philosophers. It is a great practical introduction to Stoicism and can be read in small daily excerpts for inspiration and reflection.",
+      "category": ["Categoria1"]
+    },
+    {
+      "title": "Extreme Ownership: How U.S. Navy SEALs Lead and Win",
+      "author": "Jocko Willink e Leif Babin",
+      "url": "https://a.co/d/0fUNfPkc",
+      "image": "https://m.media-amazon.com/images/I/51lkt3xn7SL._SY522_.jpg",
+      "description": "Written by two former Navy SEALs who share their experiences and lessons learned about leadership, teamwork, and discipline. The book gives practical examples applied in the military and in the corporate world.",
+      "category": ["Categoria1"]
+    },
+    {
+      "title": "Go and Win: Decoding the Elite Squad",
+      "author": "Paulo Storani",
+      "url": "https://a.co/d/0bU80iEm",
+      "image": "https://m.media-amazon.com/images/I/816MTEBzu0L._SY522_.jpg",
+      "description": "Teaches how to build elite, high-performance teams based on the author’s experience as a former BOPE captain, with references to the movie Elite Squad.",
+      "category": ["Categoria1"]
+    }
+  ]
 }
