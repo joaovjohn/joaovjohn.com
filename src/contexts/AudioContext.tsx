@@ -1,6 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import { Howl } from "howler";
 
 export interface Song {
     title: string;
@@ -20,34 +21,92 @@ export const PLAYLIST: Song[] = [
     { title: "Glad You Came (8-bit)", description: "The Wanted", url: "/audio/music/(8-bit-version) The Wanted - Glad You Came.mp3" },
 ];
 
-interface AudioContextType {
+export type SfxSound = 'click' | 'hover' | 'back' | 'switch';
+
+const SFX_PATHS: Record<SfxSound, string> = {
+    click: '/audio/click.mp3',
+    hover: '/audio/hover.mp3',
+    back: '/audio/back.mp3',
+    switch: '/audio/switch.mp3',
+};
+
+interface AudioState {
     isPlaying: boolean;
-    togglePlay: () => void;
-    playNext: () => void;
-    playPrev: () => void;
     musicVolume: number;
-    setMusicVolume: (v: number) => void;
     sfxVolume: number;
-    setSfxVolume: (v: number) => void;
     currentSong: Song;
     hasInteracted: boolean;
 }
 
-const AudioContext = createContext<AudioContextType | undefined>(undefined);
+interface AudioActions {
+    togglePlay: () => void;
+    playNext: () => void;
+    playPrev: () => void;
+    setMusicVolume: (v: number) => void;
+    setSfxVolume: (v: number) => void;
+    playSfx: (sound: SfxSound) => void;
+}
+
+interface AudioContextValue {
+    state: AudioState;
+    actions: AudioActions;
+}
+
+const AudioContext = createContext<AudioContextValue | undefined>(undefined);
+
+// --- A-02: localStorage helpers com versioning e try/catch ---
+const STORAGE_V = 'v1';
+const storageKey = (k: string) => `audio:${STORAGE_V}:${k}`;
+
+const safeGet = (k: string, fallback: string): string => {
+    try { return localStorage.getItem(storageKey(k)) ?? fallback; } catch { return fallback; }
+};
+const safeSet = (k: string, v: string): void => {
+    try { localStorage.setItem(storageKey(k), v); } catch { /* storage full or unavailable */ }
+};
 
 export function AudioProvider({ children }: { children: React.ReactNode }) {
     const [hasInteracted, setHasInteracted] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const [musicVolume, setMusicVolume] = useState(0.3);
     const [sfxVolume, setSfxVolume] = useState(1.0);
-    const [currentSongIndex, setCurrentSongIndex] = useState(() => {
-        if (typeof window === "undefined") return 0;
-        const savedSongIndex = localStorage.getItem("currentSongIndex");
-        return savedSongIndex ? parseInt(savedSongIndex, 10) : 0;
-    });
+    const [currentSongIndex, setCurrentSongIndex] = useState(0);
+
+    // SFX pool — single Howl per sound type
+    const sfxPoolRef = useRef<Map<SfxSound, Howl> | null>(null);
+    const sfxVolumeRef = useRef(sfxVolume);
+    sfxVolumeRef.current = sfxVolume;
+
+    const getSfxPool = useCallback(() => {
+        if (!sfxPoolRef.current) {
+            const pool = new Map<SfxSound, Howl>();
+            for (const [key, path] of Object.entries(SFX_PATHS)) {
+                pool.set(key as SfxSound, new Howl({ src: [path], preload: true }));
+            }
+            sfxPoolRef.current = pool;
+        }
+        return sfxPoolRef.current;
+    }, []);
+
+    const playSfx = useCallback((sound: SfxSound) => {
+        const pool = getSfxPool();
+        const howl = pool.get(sound);
+        if (howl) {
+            howl.volume(sfxVolumeRef.current);
+            howl.play();
+        }
+    }, [getSfxPool]);
 
     // Audio ref para controle nativo (persistente entre trocas de idioma)
     const audioRef = useRef<HTMLAudioElement | null>(null);
+
+    // Refs para valores usados em event listeners estáveis (evita stale closures)
+    const hasInteractedRef = useRef(hasInteracted);
+    const isPlayingRef = useRef(isPlaying);
+
+    // Sincronizar refs com state
+    useEffect(() => { hasInteractedRef.current = hasInteracted; }, [hasInteracted]);
+    useEffect(() => { isPlayingRef.current = isPlaying; }, [isPlaying]);
 
     // Inicializa áudio global para não reiniciar entre layouts
     useEffect(() => {
@@ -80,14 +139,16 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         }
     }, []);
 
-    // Load from localStorage
+    // Load from localStorage (including song index to avoid hydration mismatch)
     useEffect(() => {
-        const savedMusicVol = localStorage.getItem("musicVolume");
-        const savedSfxVol = localStorage.getItem("sfxVolume");
-        const savedIsPlaying = localStorage.getItem("wasPlaying");
+        const savedMusicVol = safeGet('musicVolume', '');
+        const savedSfxVol = safeGet('sfxVolume', '');
+        const savedIsPlaying = safeGet('wasPlaying', '');
+        const savedSongIndex = safeGet('currentSongIndex', '');
 
         if (savedMusicVol) setMusicVolume(parseFloat(savedMusicVol));
         if (savedSfxVol) setSfxVolume(parseFloat(savedSfxVol));
+        if (savedSongIndex) setCurrentSongIndex(parseInt(savedSongIndex, 10));
         if (savedIsPlaying === "true") {
             setHasInteracted(false);
         }
@@ -95,20 +156,20 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
     // Save to localStorage
     useEffect(() => {
-        localStorage.setItem("musicVolume", musicVolume.toString());
+        safeSet('musicVolume', musicVolume.toString());
         if (audioRef.current) audioRef.current.volume = musicVolume;
     }, [musicVolume]);
 
     useEffect(() => {
-        localStorage.setItem("sfxVolume", sfxVolume.toString());
+        safeSet('sfxVolume', sfxVolume.toString());
     }, [sfxVolume]);
 
-    // Setup global interaction listener
+    // Setup global interaction listener — usa refs para manter listeners estáveis
     useEffect(() => {
         const handleInteraction = () => {
-            if (!hasInteracted) {
+            if (!hasInteractedRef.current) {
                 setHasInteracted(true);
-                if (audioRef.current && !isPlaying) {
+                if (audioRef.current && !isPlayingRef.current) {
                     setIsPlaying(true);
                     audioRef.current.play().catch((e) => {
                         console.warn("Autoplay blocked, needs explicit click", e);
@@ -125,7 +186,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
             window.removeEventListener("click", handleInteraction);
             window.removeEventListener("keydown", handleInteraction);
         };
-    }, [hasInteracted, isPlaying]);
+    }, []);
 
     // Handle play/pause effect e salvar estado global
     useEffect(() => {
@@ -138,8 +199,8 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         };
         
         // Salvar no localStorage para persistir entre refreshes
-        localStorage.setItem("currentSongIndex", currentSongIndex.toString());
-        localStorage.setItem("wasPlaying", isPlaying.toString());
+        safeSet('currentSongIndex', currentSongIndex.toString());
+        safeSet('wasPlaying', isPlaying.toString());
 
         // Só muda src se for diferente (evita reiniciar música ao navegar)
         const newSrc = PLAYLIST[currentSongIndex].url;
@@ -154,6 +215,18 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         }
     }, [isPlaying, currentSongIndex]);
 
+    const playNext = useCallback(() => {
+        setCurrentSongIndex(prev => (prev + 1) % PLAYLIST.length);
+    }, []);
+
+    const playPrev = useCallback(() => {
+        setCurrentSongIndex(prev => (prev - 1 + PLAYLIST.length) % PLAYLIST.length);
+    }, []);
+
+    const togglePlay = useCallback(() => {
+        setIsPlaying(prev => !prev);
+    }, []);
+
     useEffect(() => {
         const handleEnded = () => playNext();
         if (audioRef.current) {
@@ -165,33 +238,28 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
                 audioRef.current.removeEventListener("ended", handleEnded);
             }
         };
-    }, [currentSongIndex]);
+    }, [playNext]);
 
-    const playNext = () => {
-        setCurrentSongIndex(prev => (prev + 1) % PLAYLIST.length);
-    };
-
-    const playPrev = () => {
-        setCurrentSongIndex(prev => (prev - 1 + PLAYLIST.length) % PLAYLIST.length);
-    };
-
-    const togglePlay = () => {
-        setIsPlaying(prev => !prev);
-    };
-
-    return (
-        <AudioContext.Provider value={{
+    const contextValue: AudioContextValue = {
+        state: {
             isPlaying,
+            musicVolume,
+            sfxVolume,
+            currentSong: PLAYLIST[currentSongIndex],
+            hasInteracted,
+        },
+        actions: {
             togglePlay,
             playNext,
             playPrev,
-            musicVolume,
             setMusicVolume,
-            sfxVolume,
             setSfxVolume,
-            currentSong: PLAYLIST[currentSongIndex],
-            hasInteracted
-        }}>
+            playSfx,
+        },
+    };
+
+    return (
+        <AudioContext.Provider value={contextValue}>
             {children}
         </AudioContext.Provider>
     );

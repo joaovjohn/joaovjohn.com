@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import type { Book } from '@/services/book.service';
 import { useAudio } from '@/contexts/AudioContext';
-import useSound from 'use-sound';
 import ButtonDefault from '@/components/ButtonDefault';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 
@@ -15,25 +14,22 @@ interface BooksClientProps {
 
 export default function BooksClient({ books }: BooksClientProps) {
     const t = useTranslations();
-    const { sfxVolume } = useAudio();
-    const [playHover] = useSound("/audio/hover.mp3", { volume: sfxVolume });
-    const [playClick] = useSound("/audio/click.mp3", { volume: sfxVolume });
-    const [playSwitch] = useSound("/audio/switch.mp3", { volume: sfxVolume });
+    const { actions: { playSfx } } = useAudio();
     const [expandedInfo, setExpandedInfo] = useState<string | null>(null);
 
     const handleBookClick = (url: string) => {
-        playClick();
+        playSfx('click');
         window.open(url, '_blank', 'noopener,noreferrer');
     };
 
     const handleBookHover = () => {
-        playHover();
+        playSfx('hover');
     };
 
     const handleToggleInfo = (url: string, e: React.MouseEvent) => {
         e.stopPropagation();
         setExpandedInfo(prev => prev === url ? null : url);
-        playSwitch();
+        playSfx('switch');
     };
 
     if (books.length === 0) {

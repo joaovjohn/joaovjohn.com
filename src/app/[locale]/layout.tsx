@@ -8,6 +8,8 @@ import { AudioProvider } from '@/contexts/AudioContext';
 import { AudioPlayer } from '@/components/AudioPlayer';
 import { NavigationLoaderProvider } from '@/contexts/NavigationLoaderContext';
 import GifPreloader from '@/components/GifPreloader';
+import { GoogleAnalytics, MicrosoftClarity, PageViewTracker } from '@/components/monitoring';
+import { Analytics } from '@vercel/analytics/next';
 import '../globals.css';
 
 const geistSans = Geist({
@@ -68,6 +70,10 @@ export default async function LocaleLayout({
                         </NavigationLoaderProvider>
                     </AudioProvider>
                 </NextIntlClientProvider>
+                <GoogleAnalytics />
+                <MicrosoftClarity />
+                <PageViewTracker />
+                <Analytics />
             </body>
         </html>
     );

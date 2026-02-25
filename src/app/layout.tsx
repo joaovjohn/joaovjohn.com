@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Analytics } from '@vercel/analytics/next';
-import { GoogleAnalytics, MicrosoftClarity, PageViewTracker } from '@/components/monitoring';
 
 export const metadata: Metadata = {
     title: {
@@ -40,13 +38,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-    return (
-        <>
-            <GoogleAnalytics />
-            {children}
-            <MicrosoftClarity />
-            <PageViewTracker />
-            <Analytics />
-        </>
-    );
+    return children;
 }

@@ -1,5 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
+import { cache } from 'react';
 
 export interface Book {
     title: string;
@@ -10,13 +11,15 @@ export interface Book {
     url: string;
 }
 
+const getBooks = cache(async (lang: 'en' | 'pt-br' = 'pt-br'): Promise<Book[]> => {
+    const filePath = path.join(process.cwd(), `public/content/book/books-${lang}.json`);
+    const fileContent = await fs.readFile(filePath, 'utf-8');
+    const data = JSON.parse(fileContent);
+    return data.books || [];
+});
+
 export const bookService = {
-    async getBooks(lang: 'en' | 'pt-br' = 'pt-br'): Promise<Book[]> {
-        const filePath = path.join(process.cwd(), `public/content/book/books-${lang}.json`);
-        const fileContent = await fs.readFile(filePath, 'utf-8');
-        const data = JSON.parse(fileContent);
-        return data.books || [];
-    },
+    getBooks,
 
     searchBooks(books: Book[], query: string): Book[] {
         if (!query.trim()) return books;

@@ -4,7 +4,6 @@ import { useAudio } from '@/contexts/AudioContext';
 import { type IButtonProps } from '@/contracts/interfaces/IButton';
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
-import useSound from 'use-sound';
 
 export default function ButtonDefault({ 
     children, 
@@ -25,11 +24,9 @@ export default function ButtonDefault({
                 ? 'text-lg px-5 py-3'
                 : 'text-base px-4 py-2';
 
-    const { sfxVolume } = useAudio()
-    const [playClick] = variant == 'back' ?
-        useSound("/audio/back.mp3", { volume: sfxVolume }) :
-        useSound("/audio/click.mp3", { volume: sfxVolume })
-    const [playHover] = useSound("/audio/hover.mp3", { volume: sfxVolume })
+    const { actions: { playSfx } } = useAudio()
+    const playClick = () => playSfx(variant === 'back' ? 'back' : 'click');
+    const playHover = () => playSfx('hover');
 
     if (variant === 'icon') {
         const iconClasses = `inline-flex items-center justify-center select-none transition-all duration-300 ease-out rounded-full

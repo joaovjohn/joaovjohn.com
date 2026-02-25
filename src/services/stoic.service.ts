@@ -1,18 +1,21 @@
 import fs from 'fs/promises';
 import path from 'path';
+import { cache } from 'react';
 
 export interface Quote {
     text: string;
     author: string;
 }
 
+const getQuotes = cache(async (lang: 'en' | 'pt-br' = 'en'): Promise<Quote[]> => {
+    const filePath = path.join(process.cwd(), `public/content/stoic/quotes-${lang}.json`);
+    const fileContent = await fs.readFile(filePath, 'utf-8');
+    const data = JSON.parse(fileContent);
+    return data.quotes;
+});
+
 export const stoicService = {
-    async getQuotes(lang: 'en' | 'pt-br' = 'en'): Promise<Quote[]> {
-        const filePath = path.join(process.cwd(), `public/content/stoic/quotes-${lang}.json`);
-        const fileContent = await fs.readFile(filePath, 'utf-8');
-        const data = JSON.parse(fileContent);
-        return data.quotes;
-    },
+    getQuotes,
 
     getDailyQuotes(quotes: Quote[]): Quote[] {
         const today = new Date().toDateString();

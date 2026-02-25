@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { ButtonMenu } from "./ButtonMenu";
-import useSound from "use-sound";
 import { useAudio } from "@/contexts/AudioContext";
 import { useNavigationLoader } from "@/contexts/NavigationLoaderContext";
 
@@ -17,8 +16,7 @@ interface DiagonalMenuProps {
 
 export function DiagonalMenu({ items }: DiagonalMenuProps) {
     const [activeIndex, setActiveIndex] = useState(0);
-    const { sfxVolume } = useAudio();
-    const [playClick] = useSound("/audio/click.mp3", { volume: sfxVolume });
+    const { actions: { playSfx } } = useAudio();
     const { navigateTo } = useNavigationLoader();
 
     const baseOffsetX = 4;
@@ -33,24 +31,23 @@ export function DiagonalMenu({ items }: DiagonalMenuProps) {
                 const isActive = index === activeIndex;
 
                 return (
-                    <button
+                    <div
                         key={item.href}
-                        type="button"
-                        className="block text-left no-underline focus:outline-none focus-visible:ring-2 focus-visible:ring-cor-1 rounded cursor-pointer"
+                        className="block text-left no-underline"
                         style={{
                             marginLeft: `${index * baseOffsetX}vw`,
                             marginTop: index === 0 ? 0 : "-35px",
                             transform: "scale(0.9)",
                             transformOrigin: "center",
                         }}
-                        onClick={() => { playClick(); navigateTo(item.href); }}
                     >
                         <ButtonMenu 
                             label={item.label} 
                             isActive={isActive} 
+                            onClick={() => { playSfx('click'); navigateTo(item.href); }}
                             onMouseEnter={() => setActiveIndex(index)} 
                         />
-                    </button>
+                    </div>
                 );
             })}
         </nav>

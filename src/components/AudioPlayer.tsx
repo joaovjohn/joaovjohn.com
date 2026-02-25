@@ -17,10 +17,8 @@ import { IoIosPause } from "react-icons/io";
 export function AudioPlayer() {
     const t = useTranslations("player");
     const { 
-        isPlaying, togglePlay, playNext, playPrev, 
-        musicVolume, setMusicVolume, 
-        sfxVolume, setSfxVolume,
-        currentSong 
+        state: { isPlaying, musicVolume, sfxVolume, currentSong },
+        actions: { togglePlay, playNext, playPrev, setMusicVolume, setSfxVolume },
     } = useAudio();
     
     const [isExpanded, setIsExpanded] = useState(false);

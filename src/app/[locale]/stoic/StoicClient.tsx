@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import ButtonSwitch from '@/components/ButtonSwitch';
 import { BiSolidRightArrow, BiSolidLeftArrow } from "react-icons/bi";
 
@@ -15,8 +15,10 @@ interface StoicClientProps {
 
 export default function StoicClient({ quotes }: StoicClientProps) {
     const [current, setCurrent] = useState(0);
-    const [touchStart, setTouchStart] = useState(0);
-    const [touchEnd, setTouchEnd] = useState(0);
+    // A-03: useRef para valores transitórios de touch (evita re-renders)
+    const touchStartRef = useRef(0);
+    const touchEndRef = useRef(0);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     // Restaurar índice salvo no mount
     useEffect(() => {
@@ -34,37 +36,53 @@ export default function StoicClient({ quotes }: StoicClientProps) {
         sessionStorage.setItem('stoicIndex', current.toString());
     }, [current]);
 
-    const handleTouchStart = (e: React.TouchEvent) => {
-        setTouchStart(e.targetTouches[0].clientX);
-    };
+    // A-03 + A-05: handlers com refs e setState funcional
+    const handleTouchStart = useCallback((e: TouchEvent) => {
+        touchStartRef.current = e.touches[0].clientX;
+        touchEndRef.current = 0;
+    }, []);
 
-    const handleTouchMove = (e: React.TouchEvent) => {
-        setTouchEnd(e.targetTouches[0].clientX);
-    };
+    const handleTouchMove = useCallback((e: TouchEvent) => {
+        touchEndRef.current = e.touches[0].clientX;
+    }, []);
 
-    const handleTouchEnd = () => {
-        if (!touchStart || !touchEnd) return;
-        const distance = touchStart - touchEnd;
-        if (distance > 50 && current < quotes.length - 1) setCurrent(current + 1);
-        if (distance < -50 && current > 0) setCurrent(current - 1);
-    };
+    const handleTouchEnd = useCallback(() => {
+        if (!touchStartRef.current || !touchEndRef.current) return;
+        const distance = touchStartRef.current - touchEndRef.current;
+        // A-05: setState funcional (evita stale state)
+        if (distance > 50) setCurrent(c => Math.min(c + 1, quotes.length - 1));
+        if (distance < -50) setCurrent(c => Math.max(c - 1, 0));
+    }, [quotes.length]);
 
-    const handlePrev = () => {
-        if (current > 0) setCurrent(current - 1);
-    };
+    // A-05: handlers de botão com setState funcional
+    const handlePrev = useCallback(() => {
+        setCurrent(c => Math.max(c - 1, 0));
+    }, []);
 
-    const handleNext = () => {
-        if (current < quotes.length - 1) setCurrent(current + 1);
-    };
+    const handleNext = useCallback(() => {
+        setCurrent(c => Math.min(c + 1, quotes.length - 1));
+    }, [quotes.length]);
+
+    // A-04: passive touch event listeners via useEffect
+    useEffect(() => {
+        const el = containerRef.current;
+        if (!el) return;
+        el.addEventListener('touchstart', handleTouchStart, { passive: true });
+        el.addEventListener('touchmove', handleTouchMove, { passive: true });
+        el.addEventListener('touchend', handleTouchEnd);
+        return () => {
+            el.removeEventListener('touchstart', handleTouchStart);
+            el.removeEventListener('touchmove', handleTouchMove);
+            el.removeEventListener('touchend', handleTouchEnd);
+        };
+    }, [handleTouchStart, handleTouchMove, handleTouchEnd]);
 
     const quote = quotes[current];
 
     return (
         <div 
+            ref={containerRef}
             className="relative z-10 w-full min-h-screen flex flex-col items-center justify-center p-6"
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
         >
             {/* Container principal com navegação */}
             <div className="w-full max-w-4xl flex items-center justify-between gap-4">

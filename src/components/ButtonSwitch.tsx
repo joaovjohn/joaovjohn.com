@@ -1,7 +1,6 @@
 'use client';
 
 import { type ButtonHTMLAttributes, type ReactNode } from 'react';
-import useSound from "use-sound"
 import { useAudio } from "@/contexts/AudioContext"
 
 interface ButtonSwitchProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -17,9 +16,7 @@ export default function ButtonSwitch({
     onMouseEnter,
     ...props 
 }: ButtonSwitchProps) {
-    const { sfxVolume } = useAudio();
-    const [playClick] = useSound("/audio/switch.mp3", { volume: sfxVolume * 1.5 })
-    const [playHover] = useSound("/audio/hover.mp3", { volume: sfxVolume })
+    const { actions: { playSfx } } = useAudio();
    
     const sizeClasses = {
         sm: 'w-8 h-8 text-lg',
@@ -40,11 +37,11 @@ export default function ButtonSwitch({
                 ${className}
             `}
             onClick={(event) => { 
-                playClick();
+                playSfx('switch');
                 onClick?.(event);
             }}
             onMouseEnter={(event) => {
-                playHover()
+                playSfx('hover')
                 onMouseEnter?.(event)
             }}
             {...props}

@@ -3,7 +3,6 @@
 import type { ButtonHTMLAttributes } from "react"
 import { cn } from "@/lib/utils"
 import { useEffect, useRef, useState, useId } from "react"
-import useSound from "use-sound"
 import { useAudio } from "@/contexts/AudioContext"
 
 interface ButtonMenuProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -27,9 +26,7 @@ export function ButtonMenu({
     const textRef = useRef<HTMLSpanElement>(null)
     const [isMeasured, setIsMeasured] = useState(false)
     const filterId = useId().replace(/:/g, "")
-    const { sfxVolume } = useAudio()
-    const [playClick] = useSound("/audio/click.mp3", { volume: sfxVolume })
-    const [playHover] = useSound("/audio/hover.mp3", { volume: sfxVolume })
+    const { actions: { playSfx } } = useAudio()
 
     useEffect(() => {
         if (textRef.current) {
@@ -67,9 +64,9 @@ export function ButtonMenu({
                 className,
             )}
             style={{ width: `${totalWidth + shadowPadding}px`, height: `${height + shadowPadding}px` }}
-            onClick={() => { playClick() }}
+            onClick={(event) => { playSfx('click'); onClick?.(event); }}
             onMouseEnter={(event) => {
-                playHover()
+                playSfx('hover')
                 onMouseEnter?.(event)
             }}
             {...(isActive ? {} : { tabIndex: -1, 'aria-disabled': true })}
